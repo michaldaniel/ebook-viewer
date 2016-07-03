@@ -30,6 +30,8 @@ class MainWindow(Gtk.Window):
         self.set_border_width(0)
         self.set_default_size(800, 800)
         self.connect("destroy", self.__on_exit)
+        self.connect("key-press-event", self.__on_keypress_viewer)
+
         # Gets application config from ConfigProvider
         try:
             self.config_provider = config_provider_module.ConfigProvider()
@@ -58,7 +60,6 @@ class MainWindow(Gtk.Window):
         # Adds WebKit viewer component from Viewer component
         self.viewer = viewer.Viewer(self)
         self.viewer.load_uri("about:blank")  # Display a blank page
-        self.viewer.connect("key-press-event", self.__on_keypress_viewer)
         self.viewer.connect("load-finished", self.__ajust_scroll_position)
         self.scrollable_window.add(self.viewer)
 
