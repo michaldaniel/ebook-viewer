@@ -1,0 +1,10 @@
+[Desktop Entry]
+Categories=Office;Viewer;
+MimeType=application/epub+zip;
+Exec=ebook-viewer %U
+Icon=ebook-viewer
+StartupNotify=false
+Terminal=false
+Type=Application
+Name=eBook Viewer
+Comment=Simple and modern eBook reader

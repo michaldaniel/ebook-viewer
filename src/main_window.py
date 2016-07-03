@@ -32,6 +32,10 @@ class MainWindow(Gtk.Window):
         self.connect("destroy", self.__on_exit)
         self.connect("key-press-event", self.__on_keypress_viewer)
 
+        # Use panned to display book on the right and toggle chapter & bookmarks on the right
+        self.paned = Gtk.Paned.new(Gtk.Orientation.HORIZONTAL)
+        self.add(self.paned)
+
         # Gets application config from ConfigProvider
         try:
             self.config_provider = config_provider_module.ConfigProvider()
@@ -55,7 +59,7 @@ class MainWindow(Gtk.Window):
         self.scrollable_window = Gtk.ScrolledWindow()
         self.scrollable_window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
         self.scrollable_window.get_vscrollbar().connect("show", self.__ajust_scroll_position)
-        self.add(self.scrollable_window)
+        self.paned.pack2(self.scrollable_window)  # Add to right panned
 
         # Adds WebKit viewer component from Viewer component
         self.viewer = viewer.Viewer(self)
@@ -68,6 +72,7 @@ class MainWindow(Gtk.Window):
 
         # No initial scroll offset
         self.scroll_to_set = 0.0
+
 
     @property
     def __scroll_position(self):

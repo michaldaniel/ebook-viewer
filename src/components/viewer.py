@@ -15,16 +15,12 @@
 
 import gi
 from gi.repository import WebKit
-import os
 
 gi.require_version('Gtk', '3.0')
 
 class Viewer(WebKit.WebView): #Renders the book (webkit viewer)
     def __init__(self, window):
         WebKit.WebView.__init__(self)
-
-        # Enable transparency so GTK window color will be used for background
-        self.set_transparent(True)
 
         # Sets WebView settings for ebook display
         settings = self.get_settings()
@@ -51,14 +47,12 @@ class Viewer(WebKit.WebView): #Renders the book (webkit viewer)
         """
         Sets style to day CSS
         """
-        path = os.path.abspath("../css/day.css")
         settings = self.get_settings()
-        settings.props.user_stylesheet_uri = "file://PREFIX" + path
+        settings.props.user_stylesheet_uri = "file://PREFIX/usr/share/ebook-viewer/css//day.css"
 
     def set_style_night(self):
         """
         Sets style to night CSS
         """
-        path = os.path.abspath("../css/night.css")
         settings = self.get_settings()
-        settings.props.user_stylesheet_uri = "file://PREFIX" + path
+        settings.props.user_stylesheet_uri = "file://PREFIX/usr/share/ebook-viewer/css//night.css"
