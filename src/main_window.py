@@ -179,11 +179,12 @@ class MainWindow(Gtk.Window):
         :param wiget:
         :param data:
         """
-        key_value = Gdk.keyval_name(data.keyval)
-        if key_value == "Right":
-            self.load_chapter(self.content_provider.current_chapter+1)
-        elif key_value == "Left":
-            self.load_chapter(self.content_provider.current_chapter-1)
+        if self.content_provider.status:
+            key_value = Gdk.keyval_name(data.keyval)
+            if key_value == "Right":
+                self.load_chapter(self.content_provider.current_chapter+1)
+            elif key_value == "Left":
+                self.load_chapter(self.content_provider.current_chapter-1)
 
     def __update_night_day_style(self):
         """
