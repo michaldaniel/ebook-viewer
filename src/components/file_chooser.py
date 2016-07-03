@@ -14,6 +14,7 @@
 # Fifth Floor, Boston, MA 02110-1301, USA.
 
 import gi
+from os import path
 from gi.repository import Gtk
 
 gi.require_version('Gtk', '3.0')
@@ -29,6 +30,7 @@ class FileChooserWindow(Gtk.Window):
         """
         dialog = Gtk.FileChooserDialog("Please choose a file", self, Gtk.FileChooserAction.OPEN,
                                        (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+        dialog.set_current_folder(path.expanduser("~"))
 
         # Add filters so only .epub files show
         self.__add_filters(dialog)
