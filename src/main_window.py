@@ -63,6 +63,8 @@ class MainWindow(Gtk.Window):
         self.viewer = viewer.Viewer(self)
         self.viewer.load_uri("about:blank")  # Display a blank page
         self.viewer.connect("load-finished", self.__ajust_scroll_position)
+        self.viewer.connect("load-finished", self.__save_new_position)
+
         self.scrollable_window.add(self.viewer)
 
         # Update WebView and light / dark GTK style theme according to settings
@@ -70,6 +72,12 @@ class MainWindow(Gtk.Window):
 
         # No initial scroll offset
         self.scroll_to_set = 0.0
+
+        self.menu = Gtk.Menu()
+        menu_item = Gtk.MenuItem("Copy")
+        menu_item.connect("activate", self.__on_copy_activate)
+        self.menu.append(menu_item)
+        self.menu.show_all()
 
 
     @property
@@ -161,6 +169,15 @@ class MainWindow(Gtk.Window):
             if self.scrollable_window.get_vadjustment().get_value() != 0.0:
                 self.scroll_to_set = 0.0
 
+    def __save_new_position(self, wiget, data):
+        """
+        Saves new position in case new load came from link based navigation
+        :param wiget:
+        :param data:
+        """
+        self.content_provider.set_data_from_uri(data.get_uri())
+
+
     def load_chapter(self, chapter):
         """
         Loads chapter and manages navigation UI accordingly
@@ -200,3 +217,13 @@ class MainWindow(Gtk.Window):
         else:
             self.viewer.set_style_night()
             settings.set_property("gtk-application-prefer-dark-theme", True)
+
+    def show_menu(self):
+        if self.content_provider.status:
+            self.menu.popup(None, None, None, None, 0, Gtk.get_current_event_time())
+
+    def __on_copy_activate(self, widget):
+        primary_selection = Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
+        selection_clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        selection_clipboard.set_text(primary_selection.wait_for_text(), -1)
+

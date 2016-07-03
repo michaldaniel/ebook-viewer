@@ -198,3 +198,9 @@ class ContentProvider:  # Manages book files and provides metadata
         :return book status:
         """
         return self.__ready
+
+    def set_data_from_uri(self, uri):
+        print(uri)
+        for i in range(0, self.chapter_count):
+            if os.path.split(uri)[-1:] == os.path.split(self.__files[i])[-1:]:
+                self.current_chapter = i

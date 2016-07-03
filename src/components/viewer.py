@@ -16,7 +16,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('WebKit', '3.0')
-from gi.repository import WebKit
+from gi.repository import WebKit, Gtk
 
 
 class Viewer(WebKit.WebView): #Renders the book (webkit viewer)
@@ -36,6 +36,9 @@ class Viewer(WebKit.WebView): #Renders the book (webkit viewer)
             pass
         settings.props.enable_default_context_menu = False
         settings.props.enable_html5_local_storage = False
+
+        self.connect('context-menu', self.callback)
+
         self.__window = window
 
     def load_current_chapter(self):
@@ -57,3 +60,10 @@ class Viewer(WebKit.WebView): #Renders the book (webkit viewer)
         """
         settings = self.get_settings()
         settings.props.user_stylesheet_uri = "file://PREFIX/usr/share/ebook-viewer/css//night.css"
+
+    def callback(self, webview, context_menu, hit_result_event, event):
+        self.__window.show_menu()
+
+    def option_activate_cb(self, image_menu_item):
+        print('It works.')
+

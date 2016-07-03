@@ -6,3 +6,13 @@ body{
     margin-top: 25px !important;
     margin-bottom: 100px !important;
 }
+
+::-moz-selection {
+    background-color: #ffffad;
+    color: #000000;
+}
+
+::selection {
+    background-color: #ffffad;
+    color: #000000;
+}
