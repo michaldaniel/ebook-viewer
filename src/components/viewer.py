@@ -14,9 +14,9 @@
 # Fifth Floor, Boston, MA 02110-1301, USA.
 
 import gi
+gi.require_version('Gtk', '3.0')
 from gi.repository import WebKit
 
-gi.require_version('Gtk', '3.0')
 
 class Viewer(WebKit.WebView): #Renders the book (webkit viewer)
     def __init__(self, window):

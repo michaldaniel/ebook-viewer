@@ -14,10 +14,10 @@
 # Fifth Floor, Boston, MA 02110-1301, USA.
 
 import gi
+gi.require_version('Gtk', '3.0')
 from os import path
 from gi.repository import Gtk
 
-gi.require_version('Gtk', '3.0')
 
 
 class FileChooserWindow(Gtk.Window):
