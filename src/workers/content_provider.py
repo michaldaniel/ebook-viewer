@@ -142,7 +142,7 @@ class ContentProvider:  # Manages book files and provides metadata
         self.__files = []
         if os.access(ncx_file_path, os.R_OK):  # Checks if NCX is accessible
             # Parse NCX file
-            re.compile('-(.*)-')
+            pat=re.compile('-(.*)-')
             for line in open(ncx_file_path):
                 line = line.strip()
                 if "<text>" in line:
