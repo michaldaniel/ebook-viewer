@@ -15,8 +15,10 @@
 
 import gi
 from gi.repository import Gtk, Gdk
+
 from components import header_bar, viewer
 from workers import config_provider as config_provider_module, content_provider as content_provider_module
+
 gi.require_version('Gtk', '3.0')
 
 

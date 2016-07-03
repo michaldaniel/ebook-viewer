@@ -15,6 +15,7 @@
 
 import gi
 from gi.repository import Gtk
+
 from components import file_chooser
 
 gi.require_version('Gtk', '3.0')
