@@ -1,0 +1,12 @@
+body{
+    color: #f5f5f5 !important;
+    background-color: rgba(0,0,0,0) !important;
+    margin-right: 50px !important;
+    margin-left: 50px !important;
+    margin-top: 25px !important;
+    margin-bottom: 100px !important;
+}
+
+body a {
+    color: #66ccff !important;
+}
