@@ -5,7 +5,7 @@ Modern GTK Python app to easily read ePub files
 
 **Requires**: gir1.2-webkit-3.0, gir1.2-gtk-3.0 python-gi
 
-Download or clone this repository then run in project folder:
+Download or clone this repository then run in project directory:
 
 ```sudo make install```
 
