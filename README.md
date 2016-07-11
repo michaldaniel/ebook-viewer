@@ -1,6 +1,23 @@
 # Ebook-Viewer
 Modern GTK Python app to easily read ePub files
 
+Ebook Viewer is currently in early stages of development. It's a re-write of old ebook reader called [pPub.](https://github.com/sakisds/pPub)
+
+Planned for first public release:
+- [x] ePub opening & display
+- [x] Basic chapter navigation
+- [x] Restoring of reading position
+- [ ] Importin from other ebook file formats
+- [ ] Chapter jumping
+- [ ] Chapter index based navigation
+- [ ] Per book bookmarks
+
+Future plans:
+- [ ] Content searching
+- [ ] Pernament highliting
+- [ ] Book metadata display
+- [ ] Ability to edit book metadata
+
 ## Installing
 
 **Requires**: gir1.2-webkit-3.0, gir1.2-gtk-3.0, python3-gi (PyGObject for Python 3)
@@ -14,3 +31,5 @@ Note the lack of configure step so make sure you have all dependencies.
 ## Screenshots
 
 ![Dark theme](https://i.imgur.com/sQNZ3vi.png)
+
+
