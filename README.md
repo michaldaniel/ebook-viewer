@@ -11,8 +11,11 @@ Planned for first public release:
 - [ ] Chapter jumping
 - [ ] Chapter index based navigation
 - [ ] Per book bookmarks
+- [ ] Switching between light and dark style
+- [ ] Text size control
 
 Future plans:
+- [ ] eBook font picker
 - [ ] Content searching
 - [ ] Pernament highliting
 - [ ] Book metadata display
