@@ -7,7 +7,7 @@ Planned for first public release:
 - [x] ePub opening & display
 - [x] Basic chapter navigation
 - [x] Restoring of reading position
-- [ ] Importin from other ebook file formats
+- [ ] Importing from other ebook file formats
 - [ ] Chapter jumping
 - [ ] Chapter index based navigation
 - [ ] Per book bookmarks
