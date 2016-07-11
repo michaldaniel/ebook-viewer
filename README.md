@@ -17,7 +17,7 @@ Planned for first public release:
 Future plans:
 - [ ] eBook font picker
 - [ ] Content searching
-- [ ] Pernament highliting
+- [ ] Pernament highlighting
 - [ ] Book metadata display
 - [ ] Ability to edit book metadata
 
