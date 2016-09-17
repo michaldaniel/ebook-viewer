@@ -1,3 +1,5 @@
+![Icon](https://cloud.githubusercontent.com/assets/1345297/18609855/7f6c13b2-7d0c-11e6-9fc7-0a23a251d2ea.png)
+
 # easy-ebook-viewer
 Modern GTK Python app to easily read ePub files
 
@@ -33,6 +35,6 @@ Note the lack of configure step so make sure you have all dependencies.
 
 ## Screenshots
 
-![Dark theme](https://i.imgur.com/sQNZ3vi.png)
+![Dark theme](https://cloud.githubusercontent.com/assets/1345297/18609861/9566ad8a-7d0c-11e6-83f8-bb1837736030.png)
 
 
