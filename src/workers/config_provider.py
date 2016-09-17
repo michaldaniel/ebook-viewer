@@ -8,8 +8,8 @@ import getpass
 class ConfigProvider:  # Manages book files and provides metadata
         def __init__(self):
             self.config = configparser.ConfigParser()
-            # Loads configuration from ~/.ebook-viewer.conf
-            self.__config_path = os.path.expanduser(os.path.join("~",".ebook-viewer.conf"))
+            # Loads configuration from ~/.easy-ebook-viewer.conf
+            self.__config_path = os.path.expanduser(os.path.join("~",".easy-ebook-viewer.conf"))
             if os.access(self.__config_path, os.W_OK):  # Checks if a config file exists
                 # Config file exists, loads it.
                 self.config.read(self.__config_path)
@@ -24,7 +24,7 @@ class ConfigProvider:  # Manages book files and provides metadata
             """
             Creates new Main configuration and saves it to file
             """
-            self.config["Application"] = {"cacheDir": "/tmp/ebook-viewer-cache-"+getpass.getuser()+"/",
+            self.config["Application"] = {"cacheDir": "/tmp/easy-ebook-viewer-cache-"+getpass.getuser()+"/",
                                    "javascript": "False",
                                    "caret": "False",
                                    "stylesheet": "Day"}
@@ -39,7 +39,7 @@ class ConfigProvider:  # Manages book files and provides metadata
                 self.config["Application"]={}
                 was_valid = False
             if "cacheDir" not in self.config['Application']:
-                self.config["Application"]["cacheDir"] = "/tmp/ebook-viewer-cache-" + getpass.getuser() + "/"
+                self.config["Application"]["cacheDir"] = "/tmp/easy-ebook-viewer-cache-" + getpass.getuser() + "/"
                 was_valid = False
             if "javascript" not in self.config['Application']:
                 self.config["Application"]["javascript"] = "False"
@@ -55,7 +55,7 @@ class ConfigProvider:  # Manages book files and provides metadata
 
         def save_configuration(self):
             """
-            Saves configuration to file ~/.ebook-viewer.conf
+            Saves configuration to file ~/.easy-ebook-viewer.conf
             """
             with open(self.__config_path, "w") as configfile:
                     self.config.write(configfile)

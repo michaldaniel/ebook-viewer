@@ -1,4 +1,4 @@
-# Ebook-Viewer
+# easy-ebook-viewer
 Modern GTK Python app to easily read ePub files
 
 Ebook Viewer is currently in early stages of development. It's a re-write of old ebook reader called [pPub.](https://github.com/sakisds/pPub)

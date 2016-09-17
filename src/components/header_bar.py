@@ -26,7 +26,7 @@ class HeaderBarComponent:
     def __init__(self, window):
         self.header_bar = Gtk.HeaderBar()
         self.header_bar.set_show_close_button(True)
-        self.header_bar.props.title = "eBook Viewer"
+        self.header_bar.props.title = "Easy eBook Viewer"
         self.__populate_headerbar()
         self.__window = window
 

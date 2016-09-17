@@ -16,7 +16,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
-from components import header_bar, viewer
+from components import header_bar, viewer, about_dialog
 from workers import config_provider as config_provider_module, content_provider as content_provider_module
 
 
@@ -24,7 +24,7 @@ class MainWindow(Gtk.Window):
 
     def __init__(self):
         # Creates Gtk.Window and sets parameters
-        Gtk.Window.__init__(self, title="eBook Viewer")
+        Gtk.Window.__init__(self, title="Easy eBook Viewer")
         self.set_border_width(0)
         self.set_default_size(800, 800)
         self.connect("destroy", self.__on_exit)
@@ -42,7 +42,7 @@ class MainWindow(Gtk.Window):
             # TODO: Migrate to custom dialog designed in line with elementary OS Human Interface Guidelines
             error_dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK,
                                              "Could not write configuration file.")
-            error_dialog.format_secondary_text("Make sure ~/.ebook-viewer is accessible and try again.")
+            error_dialog.format_secondary_text("Make sure ~/.easy-ebook-viewer is accessible and try again.")
             error_dialog.run()
             exit()
 
@@ -78,6 +78,9 @@ class MainWindow(Gtk.Window):
         menu_item.connect("activate", self.__on_copy_activate)
         self.menu.append(menu_item)
         self.menu.show_all()
+
+        # dialog = about_dialog.AboutDialog()
+        # dialog.show_dialog
 
 
     @property
