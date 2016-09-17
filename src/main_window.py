@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 
-# eBook Viewer by Michal Daniel
+# Easy eBook Viewer by Michal Daniel
 
-# eBook Viewer is free software; you can redistribute it and/or modify it under the terms
+# Easy eBook Viewer is free software; you can redistribute it and/or modify it under the terms
 # of the GNU General Public Licence as published by the Free Software Foundation.
 
-# eBook Viewer is distributed in the hope that it will be useful, but WITHOUT ANY
+# Easy eBook Viewer is distributed in the hope that it will be useful, but WITHOUT ANY
 # WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.  See the GNU General Public Licence for more details.
 
 # You should have received a copy of the GNU General Public Licence along with
-# eBook Viewer; if not, write to the Free Software Foundation, Inc., 51 Franklin Street,
+# Easy eBook Viewer; if not, write to the Free Software Foundation, Inc., 51 Franklin Street,
 # Fifth Floor, Boston, MA 02110-1301, USA.
 
 import gi
@@ -18,6 +18,8 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 from components import header_bar, viewer, about_dialog
 from workers import config_provider as config_provider_module, content_provider as content_provider_module
+import sys
+import os
 
 
 class MainWindow(Gtk.Window):
@@ -81,6 +83,14 @@ class MainWindow(Gtk.Window):
 
         # dialog = about_dialog.AboutDialog()
         # dialog.show_dialog
+
+        if len(sys.argv) > 1:
+            print("Argumenty: " + str(sys.argv))
+            if os.path.exists(sys.argv[1]):
+                # Save current book data
+                self.save_current_book_data()
+                # Load new book
+                self.load_book_data(sys.argv[1])
 
 
     @property

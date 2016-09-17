@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 
-# eBook Viewer by Michal Daniel
+# Easy eBook Viewer by Michal Daniel
 
-# eBook Viewer is free software; you can redistribute it and/or modify it under the terms
+# Easy eBook Viewer is free software; you can redistribute it and/or modify it under the terms
 # of the GNU General Public Licence as published by the Free Software Foundation.
 
-# eBook Viewer is distributed in the hope that it will be useful, but WITHOUT ANY
+# Easy eBook Viewer is distributed in the hope that it will be useful, but WITHOUT ANY
 # WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.  See the GNU General Public Licence for more details.
 
 # You should have received a copy of the GNU General Public Licence along with
-# eBook Viewer; if not, write to the Free Software Foundation, Inc., 51 Franklin Street,
+# Easy eBook Viewer; if not, write to the Free Software Foundation, Inc., 51 Franklin Street,
 # Fifth Floor, Boston, MA 02110-1301, USA.
 
 import gi

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Categories=Office;Viewer;
 MimeType=application/epub+zip;
-Exec=easy-ebook-viewer %U
+Exec=easy-ebook-viewer %f
 Icon=easy-ebook-viewer
 StartupNotify=false
 Terminal=false
