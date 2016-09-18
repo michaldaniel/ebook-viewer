@@ -5,7 +5,7 @@ import zipfile
 import os
 import shutil
 from workers.xml2obj import *
-
+import urllib
 
 class ContentProvider:  # Manages book files and provides metadata
     def __init__(self, window):
@@ -202,5 +202,6 @@ class ContentProvider:  # Manages book files and provides metadata
     def set_data_from_uri(self, uri):
         print(uri)
         for i in range(0, self.chapter_count):
-            if os.path.split(uri)[-1:] == os.path.split(self.__files[i])[-1:]:
+
+            if urllib.parse.unquote((os.path.split(uri)[-1]).split("#")[0]) == os.path.split(self.__files[i])[-1]:
                 self.current_chapter = i

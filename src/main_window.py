@@ -85,7 +85,6 @@ class MainWindow(Gtk.Window):
         # dialog.show_dialog
 
         if len(sys.argv) > 1:
-            print("Argumenty: " + str(sys.argv))
             if os.path.exists(sys.argv[1]):
                 # Save current book data
                 self.save_current_book_data()
