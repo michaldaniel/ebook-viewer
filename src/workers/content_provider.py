@@ -164,7 +164,6 @@ class ContentProvider:  # Manages book files and provides metadata
                 # Find ordering elements of chapters
                 if "playOrder=" in line:
                     out = self.find_between(line,'playOrder="','">')
-                    print ("PLAY ORDER: " + out)
                     chapter_order.append(int(out))
             chapter_order = functools.reduce(lambda l, x: l.append(x) or l if x not in l else l, chapter_order, [])
             self.__chapter_links = functools.reduce(lambda l, x: l.append(x) or l if x not in l else l, self.__chapter_links, [])
@@ -172,6 +171,15 @@ class ContentProvider:  # Manages book files and provides metadata
             # Remove unlinked chapter names
             while not len(self.__titles) <= len(self.__chapter_links):
                 self.__titles.remove(self.__titles[0])
+
+            # Append unstated chapter names
+            base_chapter_name = "Chapter "
+            if len(self.__titles) > 0:
+                base_chapter_name = "Unnamed chapter  "
+            i = 1
+            while not len(self.__titles) >= len(self.__chapter_links):
+                self.__titles.append(base_chapter_name + str(i))
+                i += 1
 
             # Sort chapter links according to order
             if len(self.__chapter_links) == len(chapter_order):
@@ -184,20 +192,30 @@ class ContentProvider:  # Manages book files and provides metadata
                 sorted_chapters, self.__titles = (list(t) for t in zip(*sorted(zip(sorted_chapters, self.__titles))))
 
             # If not all all files are chaptered append them
+            chater_number = 2;
             if len(files) > len(self.__chapter_links):
                 for i in range(len(files)-1):
                     if files[i] not in self.__chapter_links:
                         self.__chapter_links.insert(i, files[i])
+                        try:
+                            self.__titles.insert(i+1, self.__titles[i-chater_number+2] + " (" + str(chater_number) + ")")
+                        except IndexError:
+                            self.__titles.insert(i, self.__titles[i-1-chater_number+2] + " (" + str(chater_number) + ")")
+                        chater_number += 1;
+                    else:
+                        chater_number = 2
 
-
-
+            # Print some debug
+            print("Files: " + str(files))
+            print("Chapters: " + str(self.__chapter_links))
+            print("Names: " + str(self.__titles))
 
     def __validate_files(self, metadata):
         """
         Validates files and reloads them if necessary
         :param metadata:
         """
-        if not os.path.exists(self.__cache_path + "/" + self.__oebps + "/" + self.__chapter_links[0].split("#")[0]):
+        if not os.path.exists(self.__cache_path + "/" + self.__oebps + "/" + self.__chapter_links[0]):
             # Reloads files
             self.__chapter_links = []
             for x in metadata.manifest.item:
@@ -234,7 +252,7 @@ class ContentProvider:  # Manages book files and provides metadata
         return self.__ready
 
     def set_data_from_uri(self, uri):
-        print(uri)
+        print("Loading file: " + uri)
         for i in range(0, self.chapter_count):
             if urllib.parse.unquote((os.path.split(uri)[-1]).split("#")[0]) == os.path.split(self.__chapter_links[i])[-1]:
                 self.current_chapter = i
