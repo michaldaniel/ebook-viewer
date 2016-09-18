@@ -63,6 +63,7 @@ class MainWindow(Gtk.Window):
 
         # Adds WebKit viewer component from Viewer component
         self.viewer = viewer.Viewer(self)
+        print("Displaying blank page.")
         self.viewer.load_uri("about:blank")  # Display a blank page
         self.viewer.connect("load-finished", self.__ajust_scroll_position)
         self.viewer.connect("load-finished", self.__save_new_position)
@@ -81,7 +82,7 @@ class MainWindow(Gtk.Window):
         self.menu.append(menu_item)
         self.menu.show_all()
 
-
+        self.header_bar_component.hide_jumping_navigation()
 
         if len(sys.argv) > 1:
             if os.path.exists(sys.argv[1]):
@@ -128,11 +129,11 @@ class MainWindow(Gtk.Window):
         if self.content_provider.prepare_book(filename):
             # If book loaded without errors
 
-            # Load chapter position
-            self.__load_chapter_pos()
-
             # Enable navigation
             self.header_bar_component.enable_navigation()
+
+            # Load chapter position
+            self.__load_chapter_pos()
 
             # Open book on viewer
             self.viewer.load_current_chapter()
@@ -140,6 +141,14 @@ class MainWindow(Gtk.Window):
 
             # Load scroll offset
             self.__load_scroll_pos()
+
+            # Set top bar max pages
+            self.header_bar_component.set_maximum_chapter(self.content_provider.chapter_count+1)
+
+            # Show to bar pages jumping navigation
+            self.header_bar_component.show_jumping_navigation()
+
+            print("Chapter count: " + str(self.content_provider.chapter_count))
         else:
             # If book could not be loaded display dialog
             # TODO: Migrate to custom dialog designed in line with elementary OS Human Interface Guidelines
@@ -153,7 +162,7 @@ class MainWindow(Gtk.Window):
         """
         Return chapter position obtained from config provider
         """
-        self.content_provider.current_chapter = int(self.config_provider.config[self.content_provider.book_md5]["chapter"])
+        self.load_chapter(int(self.config_provider.config[self.content_provider.book_md5]["chapter"]))
 
     def __load_scroll_pos(self):
         """

@@ -44,6 +44,31 @@ class HeaderBarComponent:
         self.open_button.connect("clicked", self.__on_open_clicked)
         self.header_bar.pack_start(self.open_button)
 
+
+
+        # Adds linked Gtk.Box to host chapter navigation Entries
+        self.pages_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        Gtk.StyleContext.add_class(self.pages_box.get_style_context(), "linked")
+
+        #Left current page Entry
+        self.current_page_entry = Gtk.Entry()
+        self.current_page_entry.set_text("0")
+        self.current_page_entry.set_max_width_chars(5)
+        self.current_page_entry.set_width_chars(5)
+        self.pages_box.add(self.current_page_entry)
+
+        #Right of all pages Entry
+        self.number_pages_entry = Gtk.Entry()
+        self.number_pages_entry.set_placeholder_text("of 0")
+        self.number_pages_entry.set_editable(False)
+        self.number_pages_entry.set_max_width_chars(5)
+        self.number_pages_entry.set_width_chars(5)
+        self.number_pages_entry.set_can_focus(False)
+        self.pages_box.add(self.number_pages_entry)
+
+        self.header_bar.pack_start(self.pages_box)
+
+
         # Adds linked Gtk.Box to host chapter navigation buttons
         navigation_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         Gtk.StyleContext.add_class(navigation_box.get_style_context(), "linked")
@@ -64,32 +89,11 @@ class HeaderBarComponent:
 
         self.header_bar.pack_start(navigation_box)
 
-        # Adds linked Gtk.Box to host chapter navigation buttons
-        pages_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        Gtk.StyleContext.add_class(pages_box.get_style_context(), "linked")
-        self.current_page_entry = Gtk.Entry()
-        self.current_page_entry.set_text("0")
-        self.current_page_entry.set_max_width_chars(4)
-        self.current_page_entry.set_width_chars(4)
-        pages_box.add(self.current_page_entry)
-
-        self.number_pages_entry = Gtk.Entry()
-        self.number_pages_entry.set_placeholder_text("of 25")
-        self.number_pages_entry.set_editable(False)
-        self.number_pages_entry.set_max_width_chars(4)
-        self.number_pages_entry.set_width_chars(4)
-        self.number_pages_entry.set_can_focus(False)
-        pages_box.add(self.number_pages_entry)
-
-
-        self.header_bar.pack_start(pages_box)
-
+        # Adds About context settings menu item
         about_menu_item = Gtk.MenuItem("About")
         about_menu_item.connect("activate", self.__on_about_menu_item_clicked)
         self.__menu.append(about_menu_item)
         self.__menu.show_all()
-
-
 
         # Adds settings context menu button
         self.properties_button = Gtk.Button()
@@ -139,6 +143,18 @@ class HeaderBarComponent:
 
             # Load new book
             self.__window.load_book_data(filename)
+
+    def set_current_chapter(self, i):
+        self.current_page_entry.set_text(str(i))
+
+    def set_maximum_chapter(self, i):
+        self.number_pages_entry.set_placeholder_text("of " + str(i))
+
+    def show_jumping_navigation(self):
+        self.pages_box.show()
+
+    def hide_jumping_navigation(self):
+        self.pages_box.hide()
 
     def enable_navigation(self):
         """

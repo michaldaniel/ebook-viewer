@@ -241,7 +241,7 @@ class ContentProvider:  # Manages book files and provides metadata
         Returns number of chapters
         :return chapter number:
         """
-        return len(self.__chapter_links) - 1
+        return len(self.__chapter_links)-1
 
     @property
     def status(self):
@@ -253,9 +253,10 @@ class ContentProvider:  # Manages book files and provides metadata
 
     def set_data_from_uri(self, uri):
         print("Loading file: " + uri)
-        for i in range(0, self.chapter_count):
+        for i in range(0, self.chapter_count+1):
             if urllib.parse.unquote((os.path.split(uri)[-1]).split("#")[0]) == os.path.split(self.__chapter_links[i])[-1]:
                 self.current_chapter = i
+                self.__window.header_bar_component.set_current_chapter(i+1)
                 break
 
     def find_between(self, s, first, last):
