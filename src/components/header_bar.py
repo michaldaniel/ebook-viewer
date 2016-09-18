@@ -53,7 +53,9 @@ class HeaderBarComponent:
         self.current_page_entry.set_text("0")
         self.current_page_entry.set_max_width_chars(5)
         self.current_page_entry.set_width_chars(5)
+        self.current_page_entry.connect("activate", self.__on_activate_current_page_entry)
         self.pages_box.add(self.current_page_entry)
+
 
         #Right of all pages Entry
         self.number_pages_entry = Gtk.Entry()
@@ -141,6 +143,20 @@ class HeaderBarComponent:
 
             # Load new book
             self.__window.load_book_data(filename)
+
+    def __on_activate_current_page_entry(self, wiget):
+        """
+        Handles enter key on current page entry and loads that chapter
+        :param wiget:
+        :param data:
+        """
+        try:
+            if self.__window.content_provider.chapter_count >= int(wiget.get_text())-1 >= 0:
+                self.__window.load_chapter(int(wiget.get_text())-1)
+            else:
+                self.current_page_entry.set_text(str(self.__window.content_provider.current_chapter+1))
+        except ValueError:
+            self.current_page_entry.set_text(str(self.__window.content_provider.current_chapter+1))
 
     def set_current_chapter(self, i):
         self.current_page_entry.set_text(str(i))
