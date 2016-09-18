@@ -5,6 +5,8 @@ body{
     margin-left: 50px !important;
     margin-top: 25px !important;
     margin-bottom: 100px !important;
+    font-family: 'Open Sans Regular', sans-serif !important;
+
 }
 
 ::-moz-selection {

@@ -52,14 +52,14 @@ class Viewer(WebKit.WebView): #Renders the book (webkit viewer)
         Sets style to day CSS
         """
         settings = self.get_settings()
-        settings.props.user_stylesheet_uri = "file://PREFIX/usr/share/easy-ebook-viewer/css//day.css"
+        settings.props.user_stylesheet_uri = "file://PREFIX/usr/share/easy-ebook-viewer/css/day.css"
 
     def set_style_night(self):
         """
         Sets style to night CSS
         """
         settings = self.get_settings()
-        settings.props.user_stylesheet_uri = "file://PREFIX/usr/share/easy-ebook-viewer/css//night.css"
+        settings.props.user_stylesheet_uri = "file://PREFIX/usr/share/easy-ebook-viewer/css/night.css"
 
     def callback(self, webview, context_menu, hit_result_event, event):
         self.__window.show_menu()

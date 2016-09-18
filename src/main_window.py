@@ -16,7 +16,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
-from components import header_bar, viewer, about_dialog
+from components import header_bar, viewer
 from workers import config_provider as config_provider_module, content_provider as content_provider_module
 import sys
 import os
@@ -81,8 +81,7 @@ class MainWindow(Gtk.Window):
         self.menu.append(menu_item)
         self.menu.show_all()
 
-        # dialog = about_dialog.AboutDialog()
-        # dialog.show_dialog
+
 
         if len(sys.argv) > 1:
             if os.path.exists(sys.argv[1]):

@@ -6,7 +6,6 @@ PYTHON = ${BINDIR}/python3
 all: easy-ebook-viewer
 
 easy-ebook-viewer:
-
 	echo "#!/bin/sh" > easy-ebook-viewer
 	echo "${PYTHON} ${EBOOKVIEWER_DIR}/main.py \"\$$@\"" >> easy-ebook-viewer
 	chmod +x easy-ebook-viewer

@@ -15,20 +15,21 @@
 
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
-
+from gi.repository import Gtk, Gdk
 from components import file_chooser
-
-
+from components import about_dialog
 
 class HeaderBarComponent:
-
     def __init__(self, window):
         self.header_bar = Gtk.HeaderBar()
         self.header_bar.set_show_close_button(True)
         self.header_bar.props.title = "Easy eBook Viewer"
-        self.__populate_headerbar()
         self.__window = window
+        self.__menu = Gtk.Menu()
+
+        self.__populate_headerbar()
+
+
 
     def __populate_headerbar(self):
 
@@ -38,8 +39,8 @@ class HeaderBarComponent:
 
         # Adds open document button
         self.open_button = Gtk.Button()
-        image = Gtk.Image.new_from_icon_name("document-open", Gtk.IconSize.LARGE_TOOLBAR)
-        self.open_button.add(image)
+        document_open_image = Gtk.Image.new_from_icon_name("document-open", Gtk.IconSize.LARGE_TOOLBAR)
+        self.open_button.add(document_open_image)
         self.open_button.connect("clicked", self.__on_open_clicked)
         self.header_bar.pack_start(self.open_button)
 
@@ -61,7 +62,30 @@ class HeaderBarComponent:
         self.right_arrow_button.connect("clicked", self.__on_right_arrow_clicked)
         box.add(self.right_arrow_button)
 
+
+        about_menu_item = Gtk.MenuItem("About")
+        about_menu_item.connect("activate", self.__on_about_menu_item_clicked)
+        self.__menu.append(about_menu_item)
+        self.__menu.show_all()
+
+        # Adds settings context menu button
+        self.properties_button = Gtk.Button()
+        document_properties_image = Gtk.Image.new_from_icon_name("document-properties", Gtk.IconSize.LARGE_TOOLBAR)
+        self.properties_button.add(document_properties_image)
+        self.properties_button.connect("clicked", self.__on_properties_clicked)
+        self.header_bar.pack_end(self.properties_button)
+
+
+
         self.header_bar.pack_start(box)
+
+    def __on_about_menu_item_clicked(self, widget):
+        dialog = about_dialog.AboutDialog()
+        dialog.show_dialog
+
+    def __on_properties_clicked(self, button):
+        self.__menu.popup(None, button, None, button, 0, Gtk.get_current_event_time())
+        pass
 
     def __on_right_arrow_clicked(self, button):
         """

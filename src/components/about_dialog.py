@@ -30,16 +30,38 @@ class AboutDialog(Gtk.Window):
         aboutdialog = Gtk.AboutDialog()
         aboutdialog.set_position(Gtk.WindowPosition.CENTER)
 
-        authors = ["bestbirdaround"]
-        logo_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size('misc/easy-ebook-viewer-scalable.svg', 128, 128)
+        license = '''
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License
+as published by the Free Software Foundation,
+either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+'''
+
+        authors = ["Michał Daniel (developer, maintainer)", ""]
+
+        #Thank you for the beautiful icon.
+        artists = ["Christian da Silva (www.christianda.com)"]
+
+        logo_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size('/usr/share/easy-ebook-viewer/misc/easy-ebook-viewer-scalable.svg', 128, 128)
 
         aboutdialog.set_logo(logo_pixbuf)
         aboutdialog.set_program_name("Easy eBook Viewer")
         aboutdialog.set_version("1.0")
         aboutdialog.set_authors(authors)
-        aboutdialog.set_website("http://www.meocloud.pt")
+        aboutdialog.set_website("https://github.com/michaldaniel/Ebook-Viewer")
         aboutdialog.set_website_label("Browse code at Github")
-        aboutdialog.set_comments("Easy eBook Viewer is a simple and moder epub reader written in Python using GTK3 and WebKit. It has most features expected from a book reader and some support for ebook-convert. It's licenced under GPLv3.")
+        aboutdialog.set_artists(artists);
+        aboutdialog.set_license(license)
+        aboutdialog.set_comments("Easy eBook Viewer is a simple and moder ePub files reader written in Python using GTK3 and WebKit.")
 
         aboutdialog.set_title("About Easy eBook Viewer")
 
