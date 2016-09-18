@@ -45,23 +45,30 @@ class HeaderBarComponent:
         self.header_bar.pack_start(self.open_button)
 
         # Adds linked Gtk.Box to host chapter navigation buttons
-        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        Gtk.StyleContext.add_class(box.get_style_context(), "linked")
+        navigation_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        Gtk.StyleContext.add_class(navigation_box.get_style_context(), "linked")
 
         # Adds left arrow chapter navigation button
         self.left_arrow_button = Gtk.Button()
         self.left_arrow_button.add(Gtk.Arrow(Gtk.ArrowType.LEFT, Gtk.ShadowType.NONE))
         self.left_arrow_button.set_sensitive(False);
         self.left_arrow_button.connect("clicked", self.__on_left_arrow_clicked)
-        box.add(self.left_arrow_button)
+        navigation_box.add(self.left_arrow_button)
 
         # Adds right arrow chapter navigation button
         self.right_arrow_button = Gtk.Button()
         self.right_arrow_button.add(Gtk.Arrow(Gtk.ArrowType.RIGHT, Gtk.ShadowType.NONE))
         self.right_arrow_button.set_sensitive(False);
         self.right_arrow_button.connect("clicked", self.__on_right_arrow_clicked)
-        box.add(self.right_arrow_button)
+        navigation_box.add(self.right_arrow_button)
 
+        self.header_bar.pack_start(navigation_box)
+
+        self.entry = Gtk.Entry()
+        self.entry.set_max_length(4)
+        self.entry.set_text("0")
+        self.entry.set_width_chars(4)
+        self.header_bar.pack_start(self.entry)
 
         about_menu_item = Gtk.MenuItem("About")
         about_menu_item.connect("activate", self.__on_about_menu_item_clicked)
@@ -74,10 +81,6 @@ class HeaderBarComponent:
         self.properties_button.add(document_properties_image)
         self.properties_button.connect("clicked", self.__on_properties_clicked)
         self.header_bar.pack_end(self.properties_button)
-
-
-
-        self.header_bar.pack_start(box)
 
     def __on_about_menu_item_clicked(self, widget):
         dialog = about_dialog.AboutDialog()

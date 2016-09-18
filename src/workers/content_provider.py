@@ -138,8 +138,14 @@ class ContentProvider:  # Manages book files and provides metadata
         Loads titles and chapter file paths
         """
         ncx_file_path = self.__get_ncx_file_path
-        self.__titles = []
+        metadata = self.__get_metadata
         self.__files = []
+        self.__chapter_links = []
+        for x in metadata.manifest.item:
+            if x.media_type == "application/xhtml+xml":
+                self.__files.append(x.href)
+
+        self.__titles = []
         if os.access(ncx_file_path, os.R_OK):  # Checks if NCX is accessible
             # Parse NCX file
             pat=re.compile('-(.*)-')
@@ -154,8 +160,8 @@ class ContentProvider:  # Manages book files and provides metadata
                     out = line.replace("<content src=\"", "")
                     out = out.replace("\"", "")
                     out = out.replace("/>", "")
-                    self.__files.append(out)
-            while not len(self.__titles) == len(self.__files):
+                    self.__chapter_links.append(out)
+            while not len(self.__titles) <= len(self.__chapter_links):
                 self.__titles.remove(self.__titles[0])
 
     def __validate_files(self, metadata):
@@ -163,12 +169,12 @@ class ContentProvider:  # Manages book files and provides metadata
         Validates files and reloads them if necessary
         :param metadata:
         """
-        if not os.path.exists(self.__cache_path + "/" + self.__oebps + "/" + self.__files[0]):
+        if not os.path.exists(self.__cache_path + "/" + self.__oebps + "/" + self.__chapter_links[0]):
             # Reloads files
-            self.__files = []
+            self.__chapter_links = []
             for x in metadata.manifest.item:
                 if x.media_type == "application/xhtml+xml":
-                    self.__files.append(x.href)
+                    self.__chapter_links.append(x.href)
             self.__titles = []
             i = 1
             while not len(self.__titles) == len(self.__files):
