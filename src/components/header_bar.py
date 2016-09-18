@@ -64,16 +64,32 @@ class HeaderBarComponent:
 
         self.header_bar.pack_start(navigation_box)
 
-        self.entry = Gtk.Entry()
-        self.entry.set_max_length(4)
-        self.entry.set_text("0")
-        self.entry.set_width_chars(4)
-        self.header_bar.pack_start(self.entry)
+        # Adds linked Gtk.Box to host chapter navigation buttons
+        pages_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        Gtk.StyleContext.add_class(pages_box.get_style_context(), "linked")
+        self.current_page_entry = Gtk.Entry()
+        self.current_page_entry.set_text("0")
+        self.current_page_entry.set_max_width_chars(4)
+        self.current_page_entry.set_width_chars(4)
+        pages_box.add(self.current_page_entry)
+
+        self.number_pages_entry = Gtk.Entry()
+        self.number_pages_entry.set_placeholder_text("of 25")
+        self.number_pages_entry.set_editable(False)
+        self.number_pages_entry.set_max_width_chars(4)
+        self.number_pages_entry.set_width_chars(4)
+        self.number_pages_entry.set_can_focus(False)
+        pages_box.add(self.number_pages_entry)
+
+
+        self.header_bar.pack_start(pages_box)
 
         about_menu_item = Gtk.MenuItem("About")
         about_menu_item.connect("activate", self.__on_about_menu_item_clicked)
         self.__menu.append(about_menu_item)
         self.__menu.show_all()
+
+
 
         # Adds settings context menu button
         self.properties_button = Gtk.Button()
