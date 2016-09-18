@@ -24,4 +24,5 @@ if __name__ == "__main__":
     win = MainWindow()
     win.connect("delete-event", Gtk.main_quit)
     win.show_all()
+    win.header_bar_component.hide_jumping_navigation()
     Gtk.main()

@@ -82,7 +82,8 @@ class MainWindow(Gtk.Window):
         self.menu.append(menu_item)
         self.menu.show_all()
 
-        self.header_bar_component.hide_jumping_navigation()
+
+
 
         if len(sys.argv) > 1:
             if os.path.exists(sys.argv[1]):
@@ -195,7 +196,8 @@ class MainWindow(Gtk.Window):
         :param wiget:
         :param data:
         """
-        self.content_provider.set_data_from_uri(data.get_uri())
+        if not data.get_uri() == "about:blank":
+            self.content_provider.set_data_from_uri(data.get_uri())
 
 
     def load_chapter(self, chapter):

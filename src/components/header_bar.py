@@ -44,8 +44,6 @@ class HeaderBarComponent:
         self.open_button.connect("clicked", self.__on_open_clicked)
         self.header_bar.pack_start(self.open_button)
 
-
-
         # Adds linked Gtk.Box to host chapter navigation Entries
         self.pages_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         Gtk.StyleContext.add_class(self.pages_box.get_style_context(), "linked")
