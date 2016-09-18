@@ -6,6 +6,7 @@ import os
 import shutil
 from workers.xml2obj import *
 import urllib
+import functools
 
 class ContentProvider:  # Manages book files and provides metadata
     def __init__(self, window):
@@ -139,11 +140,12 @@ class ContentProvider:  # Manages book files and provides metadata
         """
         ncx_file_path = self.__get_ncx_file_path
         metadata = self.__get_metadata
-        self.__files = []
+        files = []
         self.__chapter_links = []
+        chapter_order = []
         for x in metadata.manifest.item:
             if x.media_type == "application/xhtml+xml":
-                self.__files.append(x.href)
+                files.append(x.href)
 
         self.__titles = []
         if os.access(ncx_file_path, os.R_OK):  # Checks if NCX is accessible
@@ -151,25 +153,51 @@ class ContentProvider:  # Manages book files and provides metadata
             pat=re.compile('-(.*)-')
             for line in open(ncx_file_path):
                 line = line.strip()
+                # Find text elements witch chapter titles
                 if "<text>" in line:
-                    out = line.replace("<text>", "")
-                    out = out.replace("</text>", "")
-                    out = out.replace("<content", "")
+                    out = self.find_between(line,'<text>','</text>')
                     self.__titles.append(out)
+                # Find content elements witch chapter links
                 if "<content" in line:
-                    out = line.replace("<content src=\"", "")
-                    out = out.replace("\"", "")
-                    out = out.replace("/>", "")
-                    self.__chapter_links.append(out)
+                    out = self.find_between(line, '<content src="', '"/>')
+                    self.__chapter_links.append(out.split("#")[0])
+                # Find ordering elements of chapters
+                if "playOrder=" in line:
+                    out = self.find_between(line,'playOrder="','">')
+                    print ("PLAY ORDER: " + out)
+                    chapter_order.append(int(out))
+            chapter_order = functools.reduce(lambda l, x: l.append(x) or l if x not in l else l, chapter_order, [])
+            self.__chapter_links = functools.reduce(lambda l, x: l.append(x) or l if x not in l else l, self.__chapter_links, [])
+
+            # Remove unlinked chapter names
             while not len(self.__titles) <= len(self.__chapter_links):
                 self.__titles.remove(self.__titles[0])
+
+            # Sort chapter links according to order
+            if len(self.__chapter_links) == len(chapter_order):
+                sorted_chapters = list(chapter_order)
+                sorted_chapters, self.__chapter_links = (list(t) for t in zip(*sorted(zip(sorted_chapters, self.__chapter_links))))
+
+            # Sort chapter names according to order
+            if len(chapter_order) == len(self.__titles):
+                sorted_chapters = list(chapter_order)
+                sorted_chapters, self.__titles = (list(t) for t in zip(*sorted(zip(sorted_chapters, self.__titles))))
+
+            # If not all all files are chaptered append them
+            if len(files) > len(self.__chapter_links):
+                for i in range(len(files)-1):
+                    if files[i] not in self.__chapter_links:
+                        self.__chapter_links.insert(i, files[i])
+
+
+
 
     def __validate_files(self, metadata):
         """
         Validates files and reloads them if necessary
         :param metadata:
         """
-        if not os.path.exists(self.__cache_path + "/" + self.__oebps + "/" + self.__chapter_links[0]):
+        if not os.path.exists(self.__cache_path + "/" + self.__oebps + "/" + self.__chapter_links[0].split("#")[0]):
             # Reloads files
             self.__chapter_links = []
             for x in metadata.manifest.item:
@@ -177,7 +205,7 @@ class ContentProvider:  # Manages book files and provides metadata
                     self.__chapter_links.append(x.href)
             self.__titles = []
             i = 1
-            while not len(self.__titles) == len(self.__files):
+            while not len(self.__titles) == len(self.__chapter_links):
                 self.__titles.append("Chapter "+str(i))
                 i += 1
 
@@ -187,7 +215,7 @@ class ContentProvider:  # Manages book files and provides metadata
         :param number:
         :return chapter file:
         """
-        return self.__cache_path + "/" + self.__oebps + "/" + self.__files[number]
+        return self.__cache_path + "/" + self.__oebps + "/" + self.__chapter_links[number].split("#")[0]
 
     @property
     def chapter_count(self):
@@ -195,7 +223,7 @@ class ContentProvider:  # Manages book files and provides metadata
         Returns number of chapters
         :return chapter number:
         """
-        return len(self.__files) - 1
+        return len(self.__chapter_links) - 1
 
     @property
     def status(self):
@@ -208,6 +236,14 @@ class ContentProvider:  # Manages book files and provides metadata
     def set_data_from_uri(self, uri):
         print(uri)
         for i in range(0, self.chapter_count):
-
-            if urllib.parse.unquote((os.path.split(uri)[-1]).split("#")[0]) == os.path.split(self.__files[i])[-1]:
+            if urllib.parse.unquote((os.path.split(uri)[-1]).split("#")[0]) == os.path.split(self.__chapter_links[i])[-1]:
                 self.current_chapter = i
+                break
+
+    def find_between(self, s, first, last):
+        try:
+            start = s.index(first) + len(first)
+            end = s.index(last, start)
+            return s[start:end]
+        except ValueError:
+            return ""
