@@ -52,7 +52,19 @@ class ContentProvider:  # Manages book files and provides metadata
 
             # Sets metadata
             self.book_name = str(bytes.decode(str(metadata.metadata.dc_title).encode("utf-8")))
-            self.book_author = str(bytes.decode(str(metadata.metadata.dc_creator).encode("utf-8")))
+            raw_athor = str(bytes.decode(str(metadata.metadata.dc_creator).encode("utf-8")))
+            processed_author = ""
+            first = True
+            while "data:" in raw_athor:
+                if not first:
+                    processed_author += ", "
+                first = False
+                processed_author += self.find_between(raw_athor, "data:'", "'")
+                raw_athor = raw_athor[raw_athor.index("data:") + len("data:"):]
+            if processed_author == "":
+                self.book_author = str(bytes.decode(str(metadata.metadata.dc_creator).encode("utf-8")))
+            else:
+                self.book_author = processed_author
             self.book_md5 = md5.hexdigest()
 
             # Adds book to config (for use in bookmarks)
@@ -159,11 +171,11 @@ class ContentProvider:  # Manages book files and provides metadata
                     self.__titles.append(out)
                 # Find content elements witch chapter links
                 if "<content" in line:
-                    out = self.find_between(line, '<content src="', '"/>')
+                    out = self.find_between(line, '<content src="', '"')
                     self.__chapter_links.append(out.split("#")[0])
                 # Find ordering elements of chapters
                 if "playOrder=" in line:
-                    out = self.find_between(line,'playOrder="','">')
+                    out = self.find_between(line,'playOrder="','"')
                     chapter_order.append(int(out))
             chapter_order = functools.reduce(lambda l, x: l.append(x) or l if x not in l else l, chapter_order, [])
             self.__chapter_links = functools.reduce(lambda l, x: l.append(x) or l if x not in l else l, self.__chapter_links, [])

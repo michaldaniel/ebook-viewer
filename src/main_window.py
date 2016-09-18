@@ -20,6 +20,7 @@ from components import header_bar, viewer
 from workers import config_provider as config_provider_module, content_provider as content_provider_module
 import sys
 import os
+from pathlib import Path
 
 
 class MainWindow(Gtk.Window):
@@ -84,13 +85,23 @@ class MainWindow(Gtk.Window):
 
 
 
-
+        self.book_loaded = False
         if len(sys.argv) > 1:
             if os.path.exists(sys.argv[1]):
                 # Save current book data
                 self.save_current_book_data()
                 # Load new book
                 self.load_book_data(sys.argv[1])
+                self.book_loaded = True
+        else:
+            if "lastBook" in self.config_provider.config['Application']:
+                last_book_file = Path(self.config_provider.get_last_book())
+                if last_book_file.is_file():
+                    # Save current book data
+                    self.save_current_book_data()
+                    # Load new book
+                    self.load_book_data(self.config_provider.get_last_book())
+                    self.book_loaded = True
 
 
     @property
@@ -148,6 +159,8 @@ class MainWindow(Gtk.Window):
 
             # Show to bar pages jumping navigation
             self.header_bar_component.show_jumping_navigation()
+
+            self.config_provider.save_last_book(filename)
 
             print("Chapter count: " + str(self.content_provider.chapter_count))
         else:

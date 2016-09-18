@@ -81,3 +81,9 @@ class ConfigProvider:  # Manages book files and provides metadata
             self.config[book_md5]["chapter"] = str(chapter)
             self.config[book_md5]["position"] = str(pos)
             self.save_configuration()
+
+        def save_last_book(self, file):
+            self.config["Application"] = {"lastBook": file}
+
+        def get_last_book(self):
+            return self.config["Application"]["lastBook"]
