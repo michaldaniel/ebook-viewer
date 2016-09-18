@@ -51,8 +51,8 @@ class HeaderBarComponent:
         #Left current page Entry
         self.current_page_entry = Gtk.Entry()
         self.current_page_entry.set_text("0")
-        self.current_page_entry.set_max_width_chars(5)
-        self.current_page_entry.set_width_chars(5)
+        self.current_page_entry.set_max_width_chars(3)
+        self.current_page_entry.set_width_chars(3)
         self.current_page_entry.connect("activate", self.__on_activate_current_page_entry)
         self.pages_box.add(self.current_page_entry)
 
