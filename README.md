@@ -35,6 +35,6 @@ Note the lack of configure step so make sure you have all dependencies.
 
 ## Screenshots
 
-![Dark theme](https://cloud.githubusercontent.com/assets/1345297/18619737/8bb386e8-7e04-11e6-84b4-032bc1672e97.png)
+![Dark theme](https://cloud.githubusercontent.com/assets/1345297/19214372/f169693a-8d81-11e6-9a0e-24b37f5816fe.png)
 
 
