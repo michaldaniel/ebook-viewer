@@ -19,11 +19,11 @@ from gi.repository import Gtk, Gdk
 from components import file_chooser
 from components import about_dialog
 
-class HeaderBarComponent:
+class HeaderBarComponent(Gtk.HeaderBar):
     def __init__(self, window):
-        self.header_bar = Gtk.HeaderBar()
-        self.header_bar.set_show_close_button(True)
-        self.header_bar.props.title = "Easy eBook Viewer"
+        super(Gtk.HeaderBar, self).__init__()
+        self.set_show_close_button(True)
+        self.props.title = "Easy eBook Viewer"
         self.__window = window
         self.__menu = Gtk.Menu()
 
@@ -42,7 +42,7 @@ class HeaderBarComponent:
         document_open_image = Gtk.Image.new_from_icon_name("document-open", Gtk.IconSize.LARGE_TOOLBAR)
         self.open_button.add(document_open_image)
         self.open_button.connect("clicked", self.__on_open_clicked)
-        self.header_bar.pack_start(self.open_button)
+        self.pack_start(self.open_button)
 
         # Adds linked Gtk.Box to host chapter navigation Entries
         self.pages_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
@@ -66,7 +66,7 @@ class HeaderBarComponent:
         self.number_pages_entry.set_can_focus(False)
         self.pages_box.add(self.number_pages_entry)
 
-        self.header_bar.pack_start(self.pages_box)
+        self.pack_start(self.pages_box)
 
 
         # Adds linked Gtk.Box to host chapter navigation buttons
@@ -87,7 +87,7 @@ class HeaderBarComponent:
         self.right_arrow_button.connect("clicked", self.__on_right_arrow_clicked)
         navigation_box.add(self.right_arrow_button)
 
-        self.header_bar.pack_start(navigation_box)
+        self.pack_start(navigation_box)
 
         # Adds About context settings menu item
         about_menu_item = Gtk.MenuItem("About")
@@ -100,7 +100,7 @@ class HeaderBarComponent:
         document_properties_image = Gtk.Image.new_from_icon_name("document-properties", Gtk.IconSize.LARGE_TOOLBAR)
         self.properties_button.add(document_properties_image)
         self.properties_button.connect("clicked", self.__on_properties_clicked)
-        self.header_bar.pack_end(self.properties_button)
+        self.pack_end(self.properties_button)
 
     def __on_about_menu_item_clicked(self, widget):
         dialog = about_dialog.AboutDialog()

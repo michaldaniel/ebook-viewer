@@ -54,13 +54,18 @@ class MainWindow(Gtk.Window):
 
         # Creates and sets HeaderBarComponent that handles and populates Gtk.HeaderBar
         self.header_bar_component = header_bar.HeaderBarComponent(self)
-        self.set_titlebar(self.header_bar_component.header_bar)
+        self.set_titlebar(self.header_bar_component)
 
         # Prepares scollable window to host WebKit Viewer
-        self.scrollable_window = Gtk.ScrolledWindow()
-        self.scrollable_window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
-        self.scrollable_window.get_vscrollbar().connect("show", self.__ajust_scroll_position)
-        self.paned.pack2(self.scrollable_window)  # Add to right panned
+        self.right_scrollable_window = Gtk.ScrolledWindow()
+        self.right_scrollable_window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        self.right_scrollable_window.get_vscrollbar().connect("show", self.__ajust_scroll_position)
+        self.paned.pack2(self.right_scrollable_window, True, True)  # Add to right panned
+
+        # Prepares scollable window to host Chapters and Bookmarks
+        self.left_scrollable_window = Gtk.ScrolledWindow()
+        self.left_scrollable_window.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        self.paned.pack1(self.left_scrollable_window, False, False)  # Add to right panned
 
 
         # Adds WebKit viewer component from Viewer component
@@ -70,7 +75,11 @@ class MainWindow(Gtk.Window):
         self.viewer.connect("load-finished", self.__ajust_scroll_position)
         self.viewer.connect("load-finished", self.__save_new_position)
 
-        self.scrollable_window.add(self.viewer)
+        # Create Chapters List component and pack it on the left
+        self.chapters_list_component = chapters_list.ChaptersListComponent(self)
+
+        self.right_scrollable_window.add(self.viewer)
+        self.left_scrollable_window.add(self.chapters_list_component)
 
         # Update WebView and light / dark GTK style theme according to settings
         self.__update_night_day_style()
@@ -104,9 +113,6 @@ class MainWindow(Gtk.Window):
                     self.load_book_data(self.config_provider.get_last_book())
                     self.book_loaded = True
 
-        self.chapters_list_component = chapters_list.ChaptersListComponent(self)
-        self.paned.pack1(self.chapters_list_component.listbox)
-
 
     @property
     def __scroll_position(self):
@@ -114,7 +120,7 @@ class MainWindow(Gtk.Window):
         Returns position of scroll in Scrollable Window
         :return:
         """
-        return self.scrollable_window.get_vadjustment().get_value()
+        return self.right_scrollable_window.get_vadjustment().get_value()
 
     @property
     def __get_saved_scroll(self):
@@ -164,6 +170,10 @@ class MainWindow(Gtk.Window):
             # Show to bar pages jumping navigation
             self.header_bar_component.show_jumping_navigation()
 
+            #Update chapter list
+            self.chapters_list_component.reload_listbox()
+
+
             self.config_provider.save_last_book(filename)
 
             print("Chapter count: " + str(self.content_provider.chapter_count))
@@ -203,8 +213,8 @@ class MainWindow(Gtk.Window):
         :param data:
         """
         if self.scroll_to_set != 0.0:
-            self.scrollable_window.get_vadjustment().set_value(self.scroll_to_set)
-            if self.scrollable_window.get_vadjustment().get_value() != 0.0:
+            self.right_scrollable_window.get_vadjustment().set_value(self.scroll_to_set)
+            if self.right_scrollable_window.get_vadjustment().get_value() != 0.0:
                 self.scroll_to_set = 0.0
 
     def __save_new_position(self, wiget, data):

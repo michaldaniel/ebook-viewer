@@ -17,18 +17,26 @@ class ChaptesListItem(Gtk.ListBoxRow):
         self.add(label)
 
 
-class ChaptersListComponent:
+class ChaptersListComponent(Gtk.ListBox):
     def __init__(self, window):
+        super(Gtk.ListBox, self).__init__()
         self.__window = window
-        self.listbox = Gtk.ListBox()
+        self.set_selection_mode(Gtk.SelectionMode.SINGLE)
+        self.connect('row-selected', self.__on_listbox_row_selected)
         self.__populate_listbox()
 
     def __populate_listbox(self):
-        self.listbox.set_selection_mode(Gtk.SelectionMode.SINGLE)
-        self.listbox.connect('row-selected', self.__on_listbox_row_selected)
         for i in range(len(self.__window.content_provider.titles)):
-            self.listbox.add(ChaptesListItem(self.__window.content_provider.titles[i],i))
-        self.listbox.show_all()
+            self.add(ChaptesListItem(self.__window.content_provider.titles[i],i))
+        self.show_all()
+
 
     def __on_listbox_row_selected(self, listbox, row):
         self.__window.load_chapter(row.chapter)
+
+    def reload_listbox(self):
+        children = self.get_children()
+        for element in children:
+            self.remove (element)
+        self.__populate_listbox()
+        self.show_all()
