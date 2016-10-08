@@ -1,10 +1,16 @@
 body{
     color: #f5f5f5 !important;
-    background-color: #252525 !important;
+    background-color: rgba(0,0,0,0) !important;
     margin-right: 50px !important;
     margin-left: 50px !important;
     margin-top: 25px !important;
     margin-bottom: 100px !important;
+    font-family: 'Open Sans Regular', sans-serif !important;
+}
+
+html *
+{
+    color: #f5f5f5 !important;
     font-family: 'Open Sans Regular', sans-serif !important;
 }
 

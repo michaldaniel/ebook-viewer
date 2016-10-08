@@ -22,8 +22,8 @@ from gi.repository import WebKit, Gtk
 class Viewer(WebKit.WebView): #Renders the book (webkit viewer)
     def __init__(self, window):
         WebKit.WebView.__init__(self)
-
         # Sets WebView settings for ebook display
+        self.set_transparent(True)
         settings = self.get_settings()
         self.set_full_content_zoom(True)
         settings.props.enable_scripts = False

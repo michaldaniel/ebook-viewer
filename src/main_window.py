@@ -16,7 +16,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
-from components import header_bar, viewer
+from components import header_bar, viewer, chapters_list
 from workers import config_provider as config_provider_module, content_provider as content_provider_module
 import sys
 import os
@@ -33,7 +33,7 @@ class MainWindow(Gtk.Window):
         self.connect("destroy", self.__on_exit)
         self.connect("key-press-event", self.__on_keypress_viewer)
 
-        # Use panned to display book on the right and toggle chapter & bookmarks on the right
+        # Use panned to display book on the right and toggle chapter & bookmarks on the left
         self.paned = Gtk.Paned.new(Gtk.Orientation.HORIZONTAL)
         self.add(self.paned)
 
@@ -61,6 +61,7 @@ class MainWindow(Gtk.Window):
         self.scrollable_window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
         self.scrollable_window.get_vscrollbar().connect("show", self.__ajust_scroll_position)
         self.paned.pack2(self.scrollable_window)  # Add to right panned
+
 
         # Adds WebKit viewer component from Viewer component
         self.viewer = viewer.Viewer(self)
@@ -102,6 +103,9 @@ class MainWindow(Gtk.Window):
                     # Load new book
                     self.load_book_data(self.config_provider.get_last_book())
                     self.book_loaded = True
+
+        self.chapters_list_component = chapters_list.ChaptersListComponent(self)
+        self.paned.pack1(self.chapters_list_component.listbox)
 
 
     @property
