@@ -62,11 +62,11 @@ class MainWindow(Gtk.Window):
         self.right_scrollable_window.get_vscrollbar().connect("show", self.__ajust_scroll_position)
         self.paned.pack2(self.right_scrollable_window, True, True)  # Add to right panned
 
+
         # Prepares scollable window to host Chapters and Bookmarks
         self.left_scrollable_window = Gtk.ScrolledWindow()
         self.left_scrollable_window.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         self.paned.pack1(self.left_scrollable_window, False, False)  # Add to right panned
-
 
         # Adds WebKit viewer component from Viewer component
         self.viewer = viewer.Viewer(self)
@@ -176,7 +176,6 @@ class MainWindow(Gtk.Window):
 
             self.config_provider.save_last_book(filename)
 
-            print("Chapter count: " + str(self.content_provider.chapter_count))
         else:
             # If book could not be loaded display dialog
             # TODO: Migrate to custom dialog designed in line with elementary OS Human Interface Guidelines

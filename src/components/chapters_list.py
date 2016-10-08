@@ -7,7 +7,7 @@ class ChaptesListItem(Gtk.ListBoxRow):
     def __init__(self, data, chapter):
         super(Gtk.ListBoxRow, self).__init__()
         self.data = data
-        self.chapter = chapter
+        self.chapter_link = chapter
         label = Gtk.Label(xalign=0)
         label.set_text(data)
         label.set_justify(Gtk.Justification.LEFT)
@@ -22,17 +22,18 @@ class ChaptersListComponent(Gtk.ListBox):
         super(Gtk.ListBox, self).__init__()
         self.__window = window
         self.set_selection_mode(Gtk.SelectionMode.SINGLE)
-        self.connect('row-selected', self.__on_listbox_row_selected)
+        self.connect('row_activated', self.__on_listbox_row_activated)
         self.__populate_listbox()
 
     def __populate_listbox(self):
         for i in range(len(self.__window.content_provider.titles)):
-            self.add(ChaptesListItem(self.__window.content_provider.titles[i],i))
+            #if(self.__window.content_provider.titles[i] )
+            self.add(ChaptesListItem(self.__window.content_provider.titles[i][0],self.__window.content_provider.titles[i][1]))
         self.show_all()
 
 
-    def __on_listbox_row_selected(self, listbox, row):
-        self.__window.load_chapter(row.chapter)
+    def __on_listbox_row_activated(self, listbox, row):
+        self.__window.load_chapter(self.__window.content_provider.chapter_links.index(row.chapter_link))
 
     def reload_listbox(self):
         children = self.get_children()
@@ -40,3 +41,13 @@ class ChaptersListComponent(Gtk.ListBox):
             self.remove (element)
         self.__populate_listbox()
         self.show_all()
+
+    def set_current_chapter(self, chapter):
+        children = self.get_children()
+        found = False
+        for i in range(len(children)):
+            if chapter-1 >= self.__window.content_provider.chapter_links.index(children[i].chapter_link):
+                self.select_row(children[i])
+                found = True
+        if not found:
+            self.unselect_all()
