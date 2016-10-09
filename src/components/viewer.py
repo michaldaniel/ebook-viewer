@@ -45,8 +45,9 @@ class Viewer(WebKit.WebView): #Renders the book (webkit viewer)
         """
         Loads current chapter as pointed by content porvider
         """
-        self.load_uri("file://"+self.__window.content_provider.get_chapter_file(self.__window.content_provider.current_chapter))
-        print("Loaded: " + self.__window.content_provider.get_chapter_file(self.__window.content_provider.current_chapter))
+        file_url = self.__window.content_provider.get_chapter_file(self.__window.content_provider.current_chapter)
+        self.load_html_string(open(file_url).read(), "file://" + file_url)
+        print("Loaded: " + file_url)
 
     def set_style_day(self):
         """
