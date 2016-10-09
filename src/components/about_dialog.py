@@ -46,7 +46,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 '''
 
-        authors = ["Michał Daniel (developer, maintainer)", ""]
+        authors = ["Michał Daniel (developer, maintainer)", "Nguyễn Ngọc Thanh Hà (contributor)"]
 
         #Thank you for the beautiful icon.
         artists = ["Christian da Silva (www.christianda.com)"]
