@@ -27,7 +27,8 @@ from pathlib import Path
 class MainWindow(Gtk.Window):
     def __init__(self):
         # Creates Gtk.Window and sets parameters
-        Gtk.Window.__init__(self, title="Easy eBook Viewer")
+        Gtk.Window.__init__(self)
+        self.title = _("Easy eBook Viewer")
         self.set_border_width(0)
         self.set_default_size(800, 800)
         self.connect("destroy", self.__on_exit)
@@ -44,8 +45,8 @@ class MainWindow(Gtk.Window):
             # Could not save configuration file
             # TODO: Migrate to custom dialog designed in line with elementary OS Human Interface Guidelines
             error_dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK,
-                                             "Could not write configuration file.")
-            error_dialog.format_secondary_text("Make sure ~/.easy-ebook-viewer is accessible and try again.")
+                                             _("Could not write configuration file."))
+            error_dialog.format_secondary_text(_("Make sure ~/.easy-ebook-viewer is accessible and try again."))
             error_dialog.run()
             exit()
 
@@ -287,9 +288,9 @@ class MainWindow(Gtk.Window):
             # If book could not be loaded display dialog
             # TODO: Migrate to custom dialog designed in line with elementary OS Human Interface Guidelines
             error_dialog = Gtk.MessageDialog(self.__window, 0, Gtk.MessageType.WARNING, Gtk.ButtonsType.OK,
-                                             "Could not open the book.")
+                                             _("Could not open the book."))
             error_dialog.format_secondary_text(
-                "Make sure you can read the file and the book you are trying to open is in supported format and try again.")
+                _("Make sure you can read the file and the book you are trying to open is in supported format and try again."))
             error_dialog.run()
             error_dialog.destroy()
 

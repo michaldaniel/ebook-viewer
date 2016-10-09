@@ -10,7 +10,7 @@ easy-ebook-viewer:
 	echo "${PYTHON} ${EBOOKVIEWER_DIR}/main.py \"\$$@\"" >> easy-ebook-viewer
 	chmod +x easy-ebook-viewer
 
-install: install-bin install-desktop
+install: install-bin install-desktop install-locale
 
 install-bin: easy-ebook-viewer
 	install -d ${BINDIR}
@@ -19,6 +19,7 @@ install-bin: easy-ebook-viewer
 	install -d ${EBOOKVIEWER_DIR}/workers
 	install -d ${EBOOKVIEWER_DIR}/components
 	install -d ${EBOOKVIEWER_DIR}/misc
+	install -d ${EBOOKVIEWER_DIR}/locale
 	install easy-ebook-viewer ${BINDIR}
 	install -m 644 css/night.css ${EBOOKVIEWER_DIR}/css/night.css
 	install -m 644 css/day.css ${EBOOKVIEWER_DIR}/css/day.css
@@ -36,6 +37,10 @@ install-bin: easy-ebook-viewer
 	install -m 644 src/workers/content_provider.py ${EBOOKVIEWER_DIR}/workers/content_provider.py
 	install -m 644 misc/easy-ebook-viewer-scalable.svg ${EBOOKVIEWER_DIR}/misc/easy-ebook-viewer-scalable.svg
 
+install-locale:
+	install -d ${EBOOKVIEWER_DIR}/locale/pl
+	install -d ${EBOOKVIEWER_DIR}/locale/pl/LC_MESSAGES
+	install -m 644 po/pl.mo ${EBOOKVIEWER_DIR}/locale/pl/LC_MESSAGES/easy-ebook-viewer.mo
 
 install-desktop:
 	install -d ${PREFIX}/share/icons/hicolor/24x24/apps

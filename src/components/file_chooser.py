@@ -27,7 +27,7 @@ class FileChooserWindow(Gtk.Window):
         Displays FileChooserDialog with ePub file filters and returns Gtk.ResponseType and filename string
         :return (response, filename):
         """
-        dialog = Gtk.FileChooserDialog("Please choose a file", self, Gtk.FileChooserAction.OPEN,
+        dialog = Gtk.FileChooserDialog(_("Please choose a file"), self, Gtk.FileChooserAction.OPEN,
                                        (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
 
         # Always start in user dir
@@ -50,11 +50,11 @@ class FileChooserWindow(Gtk.Window):
         :param dialog:
         """
         filter_text = Gtk.FileFilter()
-        filter_text.set_name("ePub files")
+        filter_text.set_name(_("ePub files"))
         filter_text.add_pattern("*.epub")
         dialog.add_filter(filter_text)
 
         filter_any = Gtk.FileFilter()
-        filter_any.set_name("Any files")
+        filter_any.set_name(_("Any files"))
         filter_any.add_pattern("*")
         dialog.add_filter(filter_any)

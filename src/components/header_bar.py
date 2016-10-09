@@ -30,7 +30,7 @@ class HeaderBarComponent(Gtk.HeaderBar):
         super(Gtk.HeaderBar, self).__init__()
         self.set_show_close_button(True)
         # Set default window title
-        self.props.title = "Easy eBook Viewer"
+        self.props.title = _("Easy eBook Viewer")
         self.__window = window
         self.__menu = Gtk.Menu()
         # Fill it with all the wigets
@@ -100,7 +100,7 @@ class HeaderBarComponent(Gtk.HeaderBar):
         self.pack_start(self.show_index_button)
 
         # Adds About context settings menu item
-        about_menu_item = Gtk.MenuItem("About")
+        about_menu_item = Gtk.MenuItem(_("About"))
         about_menu_item.connect("activate", self.__on_about_menu_item_clicked)
         self.__menu.append(about_menu_item)
         self.__menu.show_all()
@@ -195,7 +195,7 @@ class HeaderBarComponent(Gtk.HeaderBar):
         Sets text of "maximum" chapter entry ie. of X
         :param i:
         """
-        self.number_pages_entry.set_placeholder_text("of " + str(i))
+        self.number_pages_entry.set_placeholder_text(_("of %s") % (str(i)))
 
     def show_jumping_navigation(self):
         """

@@ -221,6 +221,7 @@ class ContentProvider:
 
             # Remove unlinked chapter names, if there are more chapters then files it means
             # chapters use filepath.html#chapter1 type of navigation
+            # TODO: Think of something better
             while not len(self.titles) <= len(self.chapter_links):
                 self.titles.remove(self.titles[0])
 
@@ -269,7 +270,7 @@ class ContentProvider:
             self.titles = []
             i = 1
             while not len(self.titles) == len(self.chapter_links):
-                self.titles.append("Chapter " + str(i))
+                self.titles.append(_("Chapter %s") % (str(i)))
                 i += 1
 
     @property

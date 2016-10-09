@@ -30,7 +30,7 @@ class AboutDialog(Gtk.Window):
         about_dialog = Gtk.AboutDialog()
         about_dialog.set_position(Gtk.WindowPosition.CENTER)
 
-        software_license = '''
+        software_license = _('''
 This program is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License
 as published by the Free Software Foundation,
@@ -44,29 +44,29 @@ See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
-'''
+''')
 
-        authors = ["Michał Daniel (developer, maintainer)",
-                   "Nguyễn Ngọc Thanh Hà (contributor)"]
+        authors = [_("Michał Daniel (developer, maintainer)"),
+                   _("Nguyễn Ngọc Thanh Hà (contributor)")]
 
         # Thank you for the beautiful icon.
-        artists = ["Christian da Silva (www.christianda.com)"]
+        artists = [_("Christian da Silva (www.christianda.com)")]
 
         logo_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(
             '/usr/share/easy-ebook-viewer/misc/easy-ebook-viewer-scalable.svg', 128, 128)
 
         about_dialog.set_logo(logo_pixbuf)
-        about_dialog.set_program_name("Easy eBook Viewer")
+        about_dialog.set_program_name(_("Easy eBook Viewer"))
         about_dialog.set_version("1.0")
         about_dialog.set_authors(authors)
         about_dialog.set_website("https://github.com/michaldaniel/Ebook-Viewer")
-        about_dialog.set_website_label("Browse code at Github")
+        about_dialog.set_website_label(_("Browse code at Github"))
         about_dialog.set_artists(artists)
         about_dialog.set_license(software_license)
         about_dialog.set_comments(
-            "Easy eBook Viewer is a simple and moder ePub files reader written in Python using GTK3 and WebKit.")
+            _("Easy eBook Viewer is a simple and moder ePub files reader written in Python using GTK3 and WebKit."))
 
-        about_dialog.set_title("About Easy eBook Viewer")
+        about_dialog.set_title(_("About Easy eBook Viewer"))
 
         about_dialog.show_all()
         about_dialog.run()
