@@ -90,7 +90,7 @@ class HeaderBarComponent(Gtk.HeaderBar):
         self.pack_start(navigation_box)
 
          # Adds right arrow chapter navigation button
-        self.show_index_button = Gtk.Button()
+        self.show_index_button = Gtk.ToggleButton()
         index_icon = Gtk.Image.new_from_icon_name("view-list-symbolic", Gtk.IconSize.SMALL_TOOLBAR)
         self.show_index_button.add(index_icon)
         self.show_index_button.connect("clicked", self.__on_show_index_clicked)
