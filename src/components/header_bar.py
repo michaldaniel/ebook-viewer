@@ -89,6 +89,13 @@ class HeaderBarComponent(Gtk.HeaderBar):
 
         self.pack_start(navigation_box)
 
+         # Adds right arrow chapter navigation button
+        self.show_index_button = Gtk.Button()
+        index_icon = Gtk.Image.new_from_icon_name("view-list-symbolic", Gtk.IconSize.SMALL_TOOLBAR)
+        self.show_index_button.add(index_icon)
+        self.show_index_button.connect("clicked", self.__on_show_index_clicked)
+        self.pack_start(self.show_index_button)
+
         # Adds About context settings menu item
         about_menu_item = Gtk.MenuItem("About")
         about_menu_item.connect("activate", self.__on_about_menu_item_clicked)
@@ -97,7 +104,7 @@ class HeaderBarComponent(Gtk.HeaderBar):
 
         # Adds settings context menu button
         self.properties_button = Gtk.Button()
-        document_properties_image = Gtk.Image.new_from_icon_name("document-properties", Gtk.IconSize.LARGE_TOOLBAR)
+        document_properties_image = Gtk.Image.new_from_icon_name("open-menu", Gtk.IconSize.LARGE_TOOLBAR)
         self.properties_button.add(document_properties_image)
         self.properties_button.connect("clicked", self.__on_properties_clicked)
         self.pack_end(self.properties_button)
@@ -123,6 +130,9 @@ class HeaderBarComponent(Gtk.HeaderBar):
         :param button:
         """
         self.__window.load_chapter(self.__window.content_provider.current_chapter-1)
+
+    def __on_show_index_clicked(self, button):
+        self.__window.toggle_left_paned()
 
     def __on_open_clicked(self, button):
         """

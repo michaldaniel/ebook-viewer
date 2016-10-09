@@ -11,7 +11,7 @@ Planned for first public release:
 - [x] Restoring of reading position
 - [ ] Importing from other ebook file formats
 - [x] Chapter jumping
-- [ ] Chapter index based navigation
+- [x] Chapter index based navigation
 - [ ] Per book bookmarks
 - [ ] Switching between light and dark style
 - [ ] Text size control

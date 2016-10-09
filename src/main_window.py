@@ -66,7 +66,7 @@ class MainWindow(Gtk.Window):
         # Prepares scollable window to host Chapters and Bookmarks
         self.left_scrollable_window = Gtk.ScrolledWindow()
         self.left_scrollable_window.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-        self.paned.pack1(self.left_scrollable_window, False, False)  # Add to right panned
+        self.is_paned_visible = False;
 
         # Adds WebKit viewer component from Viewer component
         self.viewer = viewer.Viewer(self)
@@ -274,3 +274,18 @@ class MainWindow(Gtk.Window):
         selection_clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         selection_clipboard.set_text(primary_selection.wait_for_text(), -1)
 
+    def __show_left_paned(self):
+        self.paned.pack1(self.left_scrollable_window, False, False)  # Add to right panned
+        self.paned.show_all()
+
+    def __remove_left_paned(self):
+        self.paned.remove(self.left_scrollable_window)
+        self.paned.show_all()
+
+    def toggle_left_paned(self):
+        if self.is_paned_visible:
+            self.__remove_left_paned()
+            self.is_paned_visible = False
+        else:
+            self.__show_left_paned()
+            self.is_paned_visible = True

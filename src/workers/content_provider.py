@@ -43,7 +43,7 @@ class ContentProvider:  # Manages book files and provides metadata
         os.system("chmod 700 " + self.__cache_path)
 
         # Finds opf file
-        if os.path.exists(self.__cache_path+"META-INF/container.xml"):
+        if os.path.exists(os.path.join(self.__cache_path,"META-INF/container.xml")):
 
             # Gets metadata
             metadata = self.__get_metadata
@@ -94,7 +94,7 @@ class ContentProvider:  # Manages book files and provides metadata
         Finds and returns OPF file path
         :return OPF file path:
         """
-        container_data = xml2obj(open(self.__cache_path+"META-INF/container.xml", "r"))
+        container_data = xml2obj(open(os.path.join(self.__cache_path,"META-INF/container.xml"), "r"))
         return container_data.rootfiles.rootfile.full_path
 
     @property
@@ -107,7 +107,7 @@ class ContentProvider:  # Manages book files and provides metadata
         # Gets OPF file path
         opf_file_path = self.__get_opf_file_path
         # Loads OPF file and parse it
-        return xml2obj(open(self.__cache_path+opf_file_path, "r"))
+        return xml2obj(open(os.path.join(self.__cache_path,opf_file_path), "r"))
 
     def __calculate_book_md5(self, file_path):
         """
@@ -145,7 +145,7 @@ class ContentProvider:  # Manages book files and provides metadata
         # Finds NCX file
         for x in metadata.manifest.item:
             if x.media_type == "application/x-dtbncx+xml":
-                return self.__cache_path + self.__get_oebps + "/" + x.href
+                return os.path.join(self.__cache_path, self.__get_oebps, x.href)
 
     def __load_titles_and_files(self):
         """
@@ -229,7 +229,7 @@ class ContentProvider:  # Manages book files and provides metadata
         Validates files and reloads them if necessary
         :param metadata:
         """
-        if not os.path.exists(self.__cache_path + self.__oebps + "/" + self.chapter_links[0]):
+        if not os.path.exists(os.path.join(self.__cache_path, self.__oebps, self.chapter_links[0])):
             # Reloads files
             self.chapter_links = []
             for x in metadata.manifest.item:
@@ -247,7 +247,7 @@ class ContentProvider:  # Manages book files and provides metadata
         :param number:
         :return chapter file:
         """
-        return self.__cache_path + self.__oebps + "/" + self.chapter_links[number].split("#")[0]
+        return os.path.join(self.__cache_path, self.__oebps, self.chapter_links[number].split("#")[0])
 
     @property
     def chapter_count(self):
