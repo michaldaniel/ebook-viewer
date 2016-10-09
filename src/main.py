@@ -14,16 +14,18 @@
 # Fifth Floor, Boston, MA 02110-1301, USA.
 
 import gi
+
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 from main_window import MainWindow
-
 
 # Let the fun begin...
 if __name__ == "__main__":
     win = MainWindow()
     win.connect("delete-event", Gtk.main_quit)
     win.show_all()
+    # If no book was loaded we need to tell it to hide navigation
+    # TODO: Include chapters index list here
     if not win.book_loaded:
         win.header_bar_component.hide_jumping_navigation()
     Gtk.main()

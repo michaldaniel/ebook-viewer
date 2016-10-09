@@ -14,18 +14,28 @@
 # Fifth Floor, Boston, MA 02110-1301, USA.
 
 import gi
+
 gi.require_version('Gtk', '3.0')
 gi.require_version('WebKit', '3.0')
-from gi.repository import WebKit, Gtk
+from gi.repository import WebKit
 
 
-class Viewer(WebKit.WebView): #Renders the book (webkit viewer)
+class Viewer(WebKit.WebView):
     def __init__(self, window):
+        """
+        Provides Webkit WebView element to display ebook content
+        :param window: Main application window reference, serves as communication hub
+        """
         WebKit.WebView.__init__(self)
-        # Sets WebView settings for ebook display
+
+        # Allow transparency so we can use GTK theme as background
+        # Can be overridden by CSS background property, needs to be rgba(0,0,0,0)
         self.set_transparent(True)
-        settings = self.get_settings()
+
+        # Sets WebView settings for ebook display
+        # No java script etc.
         self.set_full_content_zoom(True)
+        settings = self.get_settings()
         settings.props.enable_scripts = False
         settings.props.enable_plugins = False
         settings.props.enable_page_cache = False
@@ -34,7 +44,13 @@ class Viewer(WebKit.WebView): #Renders the book (webkit viewer)
             settings.props.enable_webgl = False
         except AttributeError:
             pass
+
+        # Disable default menu: contains copy and reload options
+        # Reload messes with custom styling, doesn't reload CSS
+        # App is using own "copy" right click hack
+        # It will allow in future to add more options on right click
         settings.props.enable_default_context_menu = False
+
         settings.props.enable_html5_local_storage = False
 
         self.connect('context-menu', self.callback)
@@ -65,7 +81,3 @@ class Viewer(WebKit.WebView): #Renders the book (webkit viewer)
 
     def callback(self, webview, context_menu, hit_result_event, event):
         self.__window.show_menu()
-
-    def option_activate_cb(self, image_menu_item):
-        print('It works.')
-

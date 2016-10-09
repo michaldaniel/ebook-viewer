@@ -14,6 +14,7 @@
 # Fifth Floor, Boston, MA 02110-1301, USA.
 
 import gi
+
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 from components import header_bar, viewer, chapters_list
@@ -24,7 +25,6 @@ from pathlib import Path
 
 
 class MainWindow(Gtk.Window):
-
     def __init__(self):
         # Creates Gtk.Window and sets parameters
         Gtk.Window.__init__(self, title="Easy eBook Viewer")
@@ -62,10 +62,10 @@ class MainWindow(Gtk.Window):
         self.right_scrollable_window.get_vscrollbar().connect("show", self.__ajust_scroll_position)
         self.paned.pack2(self.right_scrollable_window, True, True)  # Add to right panned
 
-
         # Prepares scollable window to host Chapters and Bookmarks
         self.left_scrollable_window = Gtk.ScrolledWindow()
         self.left_scrollable_window.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        # Don't show it after startup ie. don't pack it to self.panned
         self.is_paned_visible = False;
 
         # Adds WebKit viewer component from Viewer component
@@ -87,16 +87,19 @@ class MainWindow(Gtk.Window):
         # No initial scroll offset
         self.scroll_to_set = 0.0
 
+        # Create context menu for right click
         self.menu = Gtk.Menu()
         menu_item = Gtk.MenuItem("Copy")
         menu_item.connect("activate", self.__on_copy_activate)
         self.menu.append(menu_item)
         self.menu.show_all()
 
-
+        # Initial book load
 
         self.book_loaded = False
+        # If book came from arguments ie. was oppened using "Open with..." method etc.
         if len(sys.argv) > 1:
+            # Check if that file really exists
             if os.path.exists(sys.argv[1]):
                 # Save current book data
                 self.save_current_book_data()
@@ -104,6 +107,7 @@ class MainWindow(Gtk.Window):
                 self.load_book_data(sys.argv[1])
                 self.book_loaded = True
         else:
+            # Try to load last book
             if "lastBook" in self.config_provider.config['Application']:
                 last_book_file = Path(self.config_provider.get_last_book())
                 if last_book_file.is_file():
@@ -112,7 +116,6 @@ class MainWindow(Gtk.Window):
                     # Load new book
                     self.load_book_data(self.config_provider.get_last_book())
                     self.book_loaded = True
-
 
     @property
     def __scroll_position(self):
@@ -129,60 +132,6 @@ class MainWindow(Gtk.Window):
         :return:
         """
         return float(self.config_provider.config[self.content_provider.book_md5]["position"])
-
-    def save_current_book_data(self):
-        """
-        Saves to book config current chapter and scroll position
-        """
-
-        # Save only if book was loaded before
-        if self.content_provider.status:
-            self.config_provider.save_chapter_position(self.content_provider.book_md5,
-                                                       self.content_provider.current_chapter,
-                                                       self.__scroll_position)
-
-    def load_book_data(self, filename):
-        """
-        Loads book to Viwer and moves to correct chapter and scroll position
-        :param filename:
-        """
-
-        # Try to load book, returns true when book loaded without errors
-        if self.content_provider.prepare_book(filename):
-            # If book loaded without errors
-
-             #Update chapter list
-            self.chapters_list_component.reload_listbox()
-
-            # Enable navigation
-            self.header_bar_component.enable_navigation()
-
-            # Load chapter position
-            self.__load_chapter_pos()
-
-            # Open book on viewer
-            self.viewer.load_current_chapter()
-            self.set_title(self.content_provider.book_name + " by " + self.content_provider.book_author)
-
-            # Load scroll offset
-            self.__load_scroll_pos()
-
-            # Set top bar max pages
-            self.header_bar_component.set_maximum_chapter(self.content_provider.chapter_count+1)
-
-            # Show to bar pages jumping navigation
-            self.header_bar_component.show_jumping_navigation()
-
-            self.config_provider.save_last_book(filename)
-
-        else:
-            # If book could not be loaded display dialog
-            # TODO: Migrate to custom dialog designed in line with elementary OS Human Interface Guidelines
-            error_dialog = Gtk.MessageDialog(self.__window, 0, Gtk.MessageType.WARNING, Gtk.ButtonsType.OK,
-                                             "Could not open the book.")
-            error_dialog.format_secondary_text("Make sure you can read the file and the book you are trying to open is in supported format and try again.")
-            error_dialog.run()
-            error_dialog.destroy()
 
     def __load_chapter_pos(self):
         """
@@ -224,7 +173,6 @@ class MainWindow(Gtk.Window):
         if not data.get_uri() == "about:blank":
             self.content_provider.set_data_from_uri(data.get_uri())
 
-
     def load_chapter(self, chapter):
         """
         Loads chapter and manages navigation UI accordingly
@@ -249,9 +197,9 @@ class MainWindow(Gtk.Window):
         if self.content_provider.status:
             key_value = Gdk.keyval_name(data.keyval)
             if key_value == "Right":
-                self.load_chapter(self.content_provider.current_chapter+1)
+                self.load_chapter(self.content_provider.current_chapter + 1)
             elif key_value == "Left":
-                self.load_chapter(self.content_provider.current_chapter-1)
+                self.load_chapter(self.content_provider.current_chapter - 1)
 
     def __update_night_day_style(self):
         """
@@ -265,24 +213,97 @@ class MainWindow(Gtk.Window):
             self.viewer.set_style_night()
             settings.set_property("gtk-application-prefer-dark-theme", True)
 
-    def show_menu(self):
-        if self.content_provider.status:
-            self.menu.popup(None, None, None, None, 0, Gtk.get_current_event_time())
-
     def __on_copy_activate(self, widget):
+        """
+        Provides dirty clipboard hack to get selection from inside of WebKit
+        :param widget:
+        """
         primary_selection = Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
         selection_clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        # It does wait some short time for that text, it seems to update every now and then
+        # Can get selection from anywhere in the system, no real way to tell
         selection_clipboard.set_text(primary_selection.wait_for_text(), -1)
 
     def __show_left_paned(self):
+        """
+        Shows left paned panel
+        """
         self.paned.pack1(self.left_scrollable_window, False, False)  # Add to right panned
         self.paned.show_all()
 
     def __remove_left_paned(self):
+        """
+        Hides left paned panel
+        """
         self.paned.remove(self.left_scrollable_window)
         self.paned.show_all()
 
+    def save_current_book_data(self):
+        """
+        Saves to book config current chapter and scroll position
+        """
+
+        # Save only if book was loaded before
+        if self.content_provider.status:
+            self.config_provider.save_chapter_position(self.content_provider.book_md5,
+                                                       self.content_provider.current_chapter,
+                                                       self.__scroll_position)
+
+    def load_book_data(self, filename):
+        """
+        Loads book to Viwer and moves to correct chapter and scroll position
+        :param filename:
+        """
+
+        # Try to load book, returns true when book loaded without errors
+        if self.content_provider.prepare_book(filename):
+            # If book loaded without errors
+
+            # Update chapter list
+            self.chapters_list_component.reload_listbox()
+
+            # Enable navigation
+            self.header_bar_component.enable_navigation()
+
+            # Load chapter position
+            self.__load_chapter_pos()
+
+            # Open book on viewer
+            self.viewer.load_current_chapter()
+            self.set_title(self.content_provider.book_name + " by " + self.content_provider.book_author)
+
+            # Load scroll offset
+            self.__load_scroll_pos()
+
+            # Set top bar max pages
+            self.header_bar_component.set_maximum_chapter(self.content_provider.chapter_count + 1)
+
+            # Show to bar pages jumping navigation
+            self.header_bar_component.show_jumping_navigation()
+
+            self.config_provider.save_last_book(filename)
+
+        else:
+            # If book could not be loaded display dialog
+            # TODO: Migrate to custom dialog designed in line with elementary OS Human Interface Guidelines
+            error_dialog = Gtk.MessageDialog(self.__window, 0, Gtk.MessageType.WARNING, Gtk.ButtonsType.OK,
+                                             "Could not open the book.")
+            error_dialog.format_secondary_text(
+                "Make sure you can read the file and the book you are trying to open is in supported format and try again.")
+            error_dialog.run()
+            error_dialog.destroy()
+
+    def show_menu(self):
+        """
+        Displays right click context menu
+        """
+        if self.content_provider.status:
+            self.menu.popup(None, None, None, None, 0, Gtk.get_current_event_time())
+
     def toggle_left_paned(self):
+        """
+        Shows and hides left paned panel depending on it's current state
+        """
         if self.is_paned_visible:
             self.__remove_left_paned()
             self.is_paned_visible = False

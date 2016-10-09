@@ -14,14 +14,13 @@
 # Fifth Floor, Boston, MA 02110-1301, USA.
 
 import gi
+
 gi.require_version('Gtk', '3.0')
 from os import path
 from gi.repository import Gtk
 
 
-
 class FileChooserWindow(Gtk.Window):
-
     @property
     def show_dialog(self):
         """
@@ -30,9 +29,12 @@ class FileChooserWindow(Gtk.Window):
         """
         dialog = Gtk.FileChooserDialog("Please choose a file", self, Gtk.FileChooserAction.OPEN,
                                        (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+
+        # Always start in user dir
         dialog.set_current_folder(path.expanduser("~"))
 
         # Add filters so only .epub files show
+        # TODO: Filter list for all conversion supported ebooks
         self.__add_filters(dialog)
 
         response = dialog.run()
@@ -41,8 +43,8 @@ class FileChooserWindow(Gtk.Window):
 
         return response, filename
 
-    def __add_filters(self, dialog):
-
+    @staticmethod
+    def __add_filters(dialog):
         """
         Adds filters to indicate opening only .epub files.
         :param dialog:
@@ -56,5 +58,3 @@ class FileChooserWindow(Gtk.Window):
         filter_any.set_name("Any files")
         filter_any.add_pattern("*")
         dialog.add_filter(filter_any)
-
-
