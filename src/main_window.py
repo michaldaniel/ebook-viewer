@@ -151,6 +151,9 @@ class MainWindow(Gtk.Window):
         if self.content_provider.prepare_book(filename):
             # If book loaded without errors
 
+             #Update chapter list
+            self.chapters_list_component.reload_listbox()
+
             # Enable navigation
             self.header_bar_component.enable_navigation()
 
@@ -169,10 +172,6 @@ class MainWindow(Gtk.Window):
 
             # Show to bar pages jumping navigation
             self.header_bar_component.show_jumping_navigation()
-
-            #Update chapter list
-            self.chapters_list_component.reload_listbox()
-
 
             self.config_provider.save_last_book(filename)
 
