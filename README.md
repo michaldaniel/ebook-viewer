@@ -16,6 +16,8 @@ Planned for first public release:
 - [ ] Switching between light and dark style
 - [ ] Text size control
 
+Enormous rendering improvement is on the way too.
+
 Future plans:
 - [ ] eBook font picker
 - [ ] Content searching
