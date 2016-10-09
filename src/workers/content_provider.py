@@ -145,7 +145,7 @@ class ContentProvider:  # Manages book files and provides metadata
         # Finds NCX file
         for x in metadata.manifest.item:
             if x.media_type == "application/x-dtbncx+xml":
-                return self.__cache_path + "/" + self.__get_oebps + "/" + x.href
+                return self.__cache_path + self.__get_oebps + "/" + x.href
 
     def __load_titles_and_files(self):
         """
@@ -229,7 +229,7 @@ class ContentProvider:  # Manages book files and provides metadata
         Validates files and reloads them if necessary
         :param metadata:
         """
-        if not os.path.exists(self.__cache_path + "/" + self.__oebps + "/" + self.chapter_links[0]):
+        if not os.path.exists(self.__cache_path + self.__oebps + "/" + self.chapter_links[0]):
             # Reloads files
             self.chapter_links = []
             for x in metadata.manifest.item:
@@ -247,7 +247,7 @@ class ContentProvider:  # Manages book files and provides metadata
         :param number:
         :return chapter file:
         """
-        return self.__cache_path + "/" + self.__oebps + "/" + self.chapter_links[number].split("#")[0]
+        return self.__cache_path + self.__oebps + "/" + self.chapter_links[number].split("#")[0]
 
     @property
     def chapter_count(self):
