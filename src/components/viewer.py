@@ -62,6 +62,9 @@ class Viewer(WebKit.WebView):
         Loads current chapter as pointed by content porvider
         """
         file_url = self.__window.content_provider.get_chapter_file(self.__window.content_provider.current_chapter)
+        # Using WebView.load_html_string since WebView.load_uri files for some html files
+        # while load_html_string works just fine
+        # It's a bug that needs to be resolved upstream
         self.load_html_string(open(file_url).read(), "file://" + file_url)
         print("Loaded: " + file_url)
 
@@ -71,6 +74,7 @@ class Viewer(WebKit.WebView):
         """
         settings = self.get_settings()
         settings.props.user_stylesheet_uri = "file:///usr/share/easy-ebook-viewer/css/day.css"
+        # TODO: Prefix location of day.css so it can be set during install
 
     def set_style_night(self):
         """
@@ -78,6 +82,7 @@ class Viewer(WebKit.WebView):
         """
         settings = self.get_settings()
         settings.props.user_stylesheet_uri = "file:///usr/share/easy-ebook-viewer/css/night.css"
+        # TODO: Prefix location of night.css so it can be set during install
 
     def callback(self, webview, context_menu, hit_result_event, event):
         self.__window.show_menu()

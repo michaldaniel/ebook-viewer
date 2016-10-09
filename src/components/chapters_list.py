@@ -104,5 +104,5 @@ class ChaptersListComponent(Gtk.ListBox):
                 found = True
         if not found:
             # If there were no result just un-select everything
-            # this mens current chapter is before first that is indexed
+            # this means current chapter is before first that is indexed
             self.unselect_all()
