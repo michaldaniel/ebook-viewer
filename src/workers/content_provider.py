@@ -26,13 +26,14 @@ from workers.xml2obj import *
 # What happens here is:
 # 1. Read META-INF/container.xml that every ePub should have
 # 2. From META-INF/container.xml get path to OPF file
-# 3. From OPF file read every application/xhtml+xml file path and save them temporarly in self.chapter_links
+# 3. From OPF file read every application/xhtml+xml file path and save them temporarily in self.chapter_links
 # 4. From OPF file read book metadata
 # 5. From OPF file read NCX file location
 # 6. From NCX file read chapter list and chapter ordering
 # 7. Save chapter list in self.titles with titles and path to files
 # 8. Sort chapter titles and chapter links according to read ordering
 # 9. Compare list from NCX with OPF list and append not chaptered files
+# Every file path is created like this: path to tmp folder + path to OPF file location + path to file read from OPF/NCX
 # Bonus: do bunch of other stuff like setting data based on uri, telling when book loaded etc.
 
 
