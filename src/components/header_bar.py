@@ -18,7 +18,7 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 from components import file_chooser
-from components import about_dialog
+from components import about_dialog, preferences_dialog
 
 
 class HeaderBarComponent(Gtk.HeaderBar):
@@ -99,10 +99,16 @@ class HeaderBarComponent(Gtk.HeaderBar):
         self.show_index_button.connect("clicked", self.__on_show_index_clicked)
         self.pack_start(self.show_index_button)
 
+        # Adds Preferences context settings menu item
+        preferences_menu_item = Gtk.MenuItem(_("Preferences"))
+        preferences_menu_item.connect("activate", self.__on_preferences_menu_item_clicked)
+        self.__menu.append(preferences_menu_item)
+
         # Adds About context settings menu item
         about_menu_item = Gtk.MenuItem(_("About"))
         about_menu_item.connect("activate", self.__on_about_menu_item_clicked)
         self.__menu.append(about_menu_item)
+
         self.__menu.show_all()
 
         # Adds settings menu button
@@ -119,6 +125,14 @@ class HeaderBarComponent(Gtk.HeaderBar):
         """
         dialog = about_dialog.AboutDialog()
         dialog.show_dialog
+
+    def __on_preferences_menu_item_clicked(self, widget):
+        """
+        Handles About context menu item clicked event, displays manu popup
+        :param widget:
+        """
+        dialog = preferences_dialog.PreferencesDialog()
+        dialog.show_dialog(self.__window)
 
     def __on_properties_clicked(self, button):
         """
