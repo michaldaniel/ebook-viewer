@@ -26,6 +26,7 @@ if __name__ == "__main__":
     #lang.install()
     win = MainWindow()
     win.connect("delete-event", Gtk.main_quit)
+    win.set_wmclass(_("Easy eBook Viewer"), _("Easy eBook Viewer"))
     win.show_all()
     # If no book was loaded we need to tell it to hide navigation
     # TODO: Include chapters index list here
