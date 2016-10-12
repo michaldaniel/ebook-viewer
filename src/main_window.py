@@ -24,7 +24,7 @@ import os
 from pathlib import Path
 
 
-class MainWindow(Gtk.Window):
+class MainWindow(Gtk.ApplicationWindow):
     def __init__(self):
         # Creates Gtk.Window and sets parameters
         Gtk.Window.__init__(self)
@@ -206,13 +206,13 @@ class MainWindow(Gtk.Window):
         """
         Sets GTK theme and Viwer CSS according to application settings
         """
-        settings = Gtk.Settings.get_default()
+        self.settings = Gtk.Settings.get_default()
         if self.config_provider.config["Application"]["stylesheet"] == "Day":
             self.viewer.set_style_day()
-            settings.set_property("gtk-application-prefer-dark-theme", False)
+            self.settings.set_property("gtk-application-prefer-dark-theme", False)
         else:
             self.viewer.set_style_night()
-            settings.set_property("gtk-application-prefer-dark-theme", True)
+            self.settings.set_property("gtk-application-prefer-dark-theme", True)
 
     def __on_copy_activate(self, widget):
         """

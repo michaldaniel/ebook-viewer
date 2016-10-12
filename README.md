@@ -13,7 +13,7 @@ Planned for first public release:
 - [x] Chapter jumping
 - [x] Chapter index based navigation
 - [ ] Per book bookmarks
-- [ ] Switching between light and dark style
+- [x] Switching between light and dark style
 - [ ] Text size control
 
 Enormous rendering improvement is on the way too.
