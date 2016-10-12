@@ -65,8 +65,13 @@ class Viewer(WebKit.WebView):
         # Using WebView.load_html_string since WebView.load_uri files for some html files
         # while load_html_string works just fine
         # It's a bug that needs to be resolved upstream
-        self.load_html_string(open(file_url).read(), "file://" + file_url)
-        print("Loaded: " + file_url)
+
+        try:
+            with open(file_url) as file_open:
+                self.load_html_string(file_open.read(), "file://" + file_url)
+                print("Loaded: " + file_url)
+        except IOError:
+            print("Could not read: ", file_url)
 
     def set_style_day(self):
         """

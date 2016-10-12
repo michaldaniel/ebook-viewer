@@ -12,6 +12,7 @@
 # You should have received a copy of the GNU General Public Licence along with
 # Easy eBook Viewer; if not, write to the Free Software Foundation, Inc., 51 Franklin Street,
 # Fifth Floor, Boston, MA 02110-1301, USA.
+import os
 
 import gi
 
@@ -35,6 +36,7 @@ class HeaderBarComponent(Gtk.HeaderBar):
         self.__menu = Gtk.Menu()
         # Fill it with all the wigets
         self.__populate_headerbar()
+        self.job_running = False
 
     def __populate_headerbar(self):
 
@@ -104,6 +106,21 @@ class HeaderBarComponent(Gtk.HeaderBar):
         preferences_menu_item.connect("activate", self.__on_preferences_menu_item_clicked)
         self.__menu.append(preferences_menu_item)
 
+        # Adds Preferences context settings menu item
+        import_menu_item = Gtk.MenuItem.new_with_label(_("Import book..."))
+        import_menu_item.connect("activate", self.__on_import_menu_item_clicked)
+        self.__menu.append(import_menu_item)
+
+        # Adds Preferences context settings menu item
+        #import_menu_item = Gtk.MenuItem(_("Import book..."))
+        #import_menu_item.connect("activate", self.__on_import_menu_item_clicked)
+        #self.__menu.append(import_menu_item)
+
+        if not os.path.exists("/usr/bin/ebook-convert"):
+            children = import_menu_item.get_children()
+            for element in children:
+                element.set_sensitive(False)
+
         # Adds About context settings menu item
         about_menu_item = Gtk.MenuItem(_("About"))
         about_menu_item.connect("activate", self.__on_about_menu_item_clicked)
@@ -140,7 +157,29 @@ class HeaderBarComponent(Gtk.HeaderBar):
         :param button:
         """
         self.__menu.popup(None, button, None, button, 0, Gtk.get_current_event_time())
-        pass
+
+    def __on_import_menu_item_clicked(self, wiget):
+        """
+        Handles Import context menu item clicked event, imports only if Calibre present
+        :param wiget:
+        """
+        if not os.path.exists("/usr/bin/ebook-convert"):
+            error_dialog = Gtk.MessageDialog(self.__window, 0, Gtk.MessageType.INFO, Gtk.ButtonsType.OK,
+                                             _("Importing is unavailable"))
+            error_dialog.format_secondary_text(_("Importing requires Calibre eBook reader to be installed."))
+            error_dialog.run()
+        else:
+            # Loads file chooser component
+            file_chooser_component = file_chooser.FileChooserWindow()
+            (response, filename) = file_chooser_component.show_dialog(importing=True)
+
+            # Check if Gtk.Response is OK, means user selected file
+            if response == Gtk.ResponseType.OK:
+                print("File selected: " + filename)  # Print selected file path to console
+                # Save current book data
+                self.__window.save_current_book_data()
+                # Load new book
+                self.__window.load_book_data(filename)
 
     def __on_right_arrow_clicked(self, button):
         """
@@ -171,7 +210,7 @@ class HeaderBarComponent(Gtk.HeaderBar):
 
         # Loads file chooser component
         file_chooser_component = file_chooser.FileChooserWindow()
-        (response, filename) = file_chooser_component.show_dialog
+        (response, filename) = file_chooser_component.show_dialog()
 
         # Check if Gtk.Response is OK, means user selected file
         if response == Gtk.ResponseType.OK:

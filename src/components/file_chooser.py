@@ -12,7 +12,8 @@
 # You should have received a copy of the GNU General Public Licence along with
 # Easy eBook Viewer; if not, write to the Free Software Foundation, Inc., 51 Franklin Street,
 # Fifth Floor, Boston, MA 02110-1301, USA.
-
+import os
+import constants
 import gi
 
 gi.require_version('Gtk', '3.0')
@@ -21,8 +22,7 @@ from gi.repository import Gtk
 
 
 class FileChooserWindow(Gtk.Window):
-    @property
-    def show_dialog(self):
+    def show_dialog(self, importing=False):
         """
         Displays FileChooserDialog with ePub file filters and returns Gtk.ResponseType and filename string
         :return (response, filename):
@@ -35,7 +35,7 @@ class FileChooserWindow(Gtk.Window):
 
         # Add filters so only .epub files show
         # TODO: Filter list for all conversion supported ebooks
-        self.__add_filters(dialog)
+        self.__add_filters(dialog, importing)
 
         response = dialog.run()
         filename = dialog.get_filename()
@@ -43,18 +43,35 @@ class FileChooserWindow(Gtk.Window):
 
         return response, filename
 
-    @staticmethod
-    def __add_filters(dialog):
+    def __add_filters(self, dialog, importing):
         """
         Adds filters to indicate opening only .epub files.
         :param dialog:
         """
-        filter_text = Gtk.FileFilter()
-        filter_text.set_name(_("ePub files"))
-        filter_text.add_pattern("*.epub")
-        dialog.add_filter(filter_text)
+        if not importing:
+            self.__add_native(dialog)
+            if os.path.exists("/usr/bin/ebook-convert"):
+                self.__add_imports(dialog)
+        else:
+            self.__add_imports(dialog)
 
         filter_any = Gtk.FileFilter()
         filter_any.set_name(_("Any files"))
         filter_any.add_pattern("*")
         dialog.add_filter(filter_any)
+
+    def __add_native(self, dialog):
+        filter_text = Gtk.FileFilter()
+        filter_text.set_name(_("ePub files"))
+        for extension in constants.NATIVE:
+            filter_text.add_pattern("*." + extension.upper())
+            filter_text.add_pattern("*." + extension.lower())
+        dialog.add_filter(filter_text)
+
+    def __add_imports(self, dialog):
+        filter_text = Gtk.FileFilter()
+        filter_text.set_name(_("Importable files"))
+        for extension in constants.IMPORTABLES:
+            filter_text.add_pattern("*." + extension.upper())
+            filter_text.add_pattern("*." + extension.lower())
+        dialog.add_filter(filter_text)

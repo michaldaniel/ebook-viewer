@@ -83,7 +83,7 @@ class ContentProvider:
             metadata = self.__get_metadata
 
             # Calculates MD5 of book (for use in bookmarks)
-            md5 = self.__calculate_book_md5(file_path)
+            md5 = self.__calculate_book_md5(self.__window.filename)
 
             # Sets metadata
             self.book_name = str(bytes.decode(str(metadata.metadata.dc_title).encode("utf-8")))

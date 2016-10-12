@@ -32,7 +32,7 @@ install-bin: easy-ebook-viewer
 	install -m 644 src/components/about_dialog.py ${EBOOKVIEWER_DIR}/components/about_dialog.py
 	install -m 644 src/components/chapters_list.py ${EBOOKVIEWER_DIR}/components/chapters_list.py
 	install -m 644 src/components/preferences_dialog.py ${EBOOKVIEWER_DIR}/components/preferences_dialog.py
-
+	install -m 644 src/constants.py ${EBOOKVIEWER_DIR}/constants.py
 	install -m 644 src/workers/__init__.py ${EBOOKVIEWER_DIR}/workers/__init__.py
 	install -m 644 src/workers/config_provider.py ${EBOOKVIEWER_DIR}/workers/config_provider.py
 	install -m 644 src/workers/xml2obj.py ${EBOOKVIEWER_DIR}/workers/xml2obj.py

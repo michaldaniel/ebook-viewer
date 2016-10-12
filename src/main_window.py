@@ -12,11 +12,12 @@
 # You should have received a copy of the GNU General Public Licence along with
 # Easy eBook Viewer; if not, write to the Free Software Foundation, Inc., 51 Franklin Street,
 # Fifth Floor, Boston, MA 02110-1301, USA.
-
+import threading
+import constants
 import gi
 
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, GObject
 from components import header_bar, viewer, chapters_list
 from workers import config_provider as config_provider_module, content_provider as content_provider_module
 import sys
@@ -33,6 +34,7 @@ class MainWindow(Gtk.ApplicationWindow):
         self.set_default_size(800, 800)
         self.connect("destroy", self.__on_exit)
         self.connect("key-press-event", self.__on_keypress_viewer)
+        self.job_running = False
 
         # Use panned to display book on the right and toggle chapter & bookmarks on the left
         self.paned = Gtk.Paned.new(Gtk.Orientation.HORIZONTAL)
@@ -61,7 +63,8 @@ class MainWindow(Gtk.ApplicationWindow):
         self.right_scrollable_window = Gtk.ScrolledWindow()
         self.right_scrollable_window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
         self.right_scrollable_window.get_vscrollbar().connect("show", self.__ajust_scroll_position)
-        self.paned.pack2(self.right_scrollable_window, True, True)  # Add to right panned
+        self.right_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.paned.pack2(self.right_box, True, True)  # Add to right panned
 
         # Prepares scollable window to host Chapters and Bookmarks
         self.left_scrollable_window = Gtk.ScrolledWindow()
@@ -70,17 +73,22 @@ class MainWindow(Gtk.ApplicationWindow):
         self.is_paned_visible = False;
 
         # Adds WebKit viewer component from Viewer component
+
         self.viewer = viewer.Viewer(self)
         print("Displaying blank page.")
         self.viewer.load_uri("about:blank")  # Display a blank page
         self.viewer.connect("load-finished", self.__ajust_scroll_position)
         self.viewer.connect("load-finished", self.__save_new_position)
-
+        self.right_box.pack_end(self.right_scrollable_window, True, True, 0)
         # Create Chapters List component and pack it on the left
         self.chapters_list_component = chapters_list.ChaptersListComponent(self)
 
         self.right_scrollable_window.add(self.viewer)
         self.left_scrollable_window.add(self.chapters_list_component)
+
+        self.spinner = Gtk.Spinner()
+        self.spinner.set_margin_top(50)
+        self.spinner.set_size_request(50, 50)
 
         # Update WebView and light / dark GTK style theme according to settings
         self.__update_night_day_style()
@@ -109,15 +117,17 @@ class MainWindow(Gtk.ApplicationWindow):
                 self.book_loaded = True
         else:
             # Try to load last book
-            if "lastBook" in self.config_provider.config['Application']:
-                last_book_file = Path(self.config_provider.get_last_book())
-                if last_book_file.is_file():
-                    # Save current book data
-                    self.save_current_book_data()
-                    # Load new book
-                    self.load_book_data(self.config_provider.get_last_book())
-                    self.book_loaded = True
+            self.__reload_previous_book()
 
+    def __reload_previous_book(self):
+        if "lastBook" in self.config_provider.config['Application']:
+            last_book_file = Path(self.config_provider.get_last_book())
+            if last_book_file.is_file():
+                # Save current book data
+                self.save_current_book_data()
+                # Load new book
+                self.load_book_data(self.config_provider.get_last_book())
+                self.book_loaded = True
     @property
     def __scroll_position(self):
         """
@@ -153,6 +163,7 @@ class MainWindow(Gtk.ApplicationWindow):
         :param data:
         """
         self.save_current_book_data()
+        Gdk.threads_leave()
 
     def __ajust_scroll_position(self, widget, data):
         """
@@ -239,6 +250,17 @@ class MainWindow(Gtk.ApplicationWindow):
         self.paned.remove(self.left_scrollable_window)
         self.paned.show_all()
 
+    def __bg_import_book(self, filename):
+        self.filename = filename
+        os.system("ebook-convert \"" + filename + "\" /tmp/easy-ebook-viewer-converted.epub --pretty-print")
+        self.job_running = False
+
+    def __check_on_work(self):
+        if not self.job_running:
+            self.__continiue_book_loading("/tmp/easy-ebook-viewer-converted.epub")
+            return 0
+        return 1
+
     def save_current_book_data(self):
         """
         Saves to book config current chapter and scroll position
@@ -250,13 +272,11 @@ class MainWindow(Gtk.ApplicationWindow):
                                                        self.content_provider.current_chapter,
                                                        self.__scroll_position)
 
-    def load_book_data(self, filename):
-        """
-        Loads book to Viwer and moves to correct chapter and scroll position
-        :param filename:
-        """
-
-        # Try to load book, returns true when book loaded without errors
+    def __continiue_book_loading(self, filename):
+        self.spinner.stop()
+        self.viewer.show()
+        self.right_box.remove(self.spinner)
+         # Try to load book, returns true when book loaded without errors
         if self.content_provider.prepare_book(filename):
             # If book loaded without errors
 
@@ -282,17 +302,35 @@ class MainWindow(Gtk.ApplicationWindow):
             # Show to bar pages jumping navigation
             self.header_bar_component.show_jumping_navigation()
 
-            self.config_provider.save_last_book(filename)
+            self.config_provider.save_last_book(self.filename)
 
         else:
             # If book could not be loaded display dialog
             # TODO: Migrate to custom dialog designed in line with elementary OS Human Interface Guidelines
-            error_dialog = Gtk.MessageDialog(self.__window, 0, Gtk.MessageType.WARNING, Gtk.ButtonsType.OK,
+            error_dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.WARNING, Gtk.ButtonsType.OK,
                                              _("Could not open the book."))
             error_dialog.format_secondary_text(
                 _("Make sure you can read the file and the book you are trying to open is in supported format and try again."))
             error_dialog.run()
             error_dialog.destroy()
+
+    def load_book_data(self, filename):
+        """
+        Loads book to Viwer and moves to correct chapter and scroll position
+        :param filename:
+        """
+        self.spinner.start()
+        self.viewer.hide()
+        self.right_box.add(self.spinner)
+        self.filename = filename
+        native_with_dot = ("." + w for w in constants.NATIVE)
+        if not filename.upper().endswith(tuple(native_with_dot)):
+            convert_thread = threading.Thread(target=self.__bg_import_book, args=(filename,))
+            self.job_running = True
+            convert_thread.start()
+            GObject.timeout_add(100, self.__check_on_work)
+        else:
+            self.__continiue_book_loading(filename)
 
     def show_menu(self):
         """

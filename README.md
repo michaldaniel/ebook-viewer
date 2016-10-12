@@ -9,17 +9,20 @@ Planned for first public release:
 - [x] ePub opening & display
 - [x] Basic chapter navigation
 - [x] Restoring of reading position
-- [ ] Importing from other ebook file formats
+- [x] Importing from other ebook file formats
 - [x] Chapter jumping
 - [x] Chapter index based navigation
 - [ ] Per book bookmarks
 - [x] Switching between light and dark style
 - [ ] Text size control
+- [ ] eBook font picker
 
 Enormous rendering improvement is on the way too.
 
 Future plans:
-- [ ] eBook font picker
+- [ ] Native non-DRM mobi support
+- [ ] Native txt support
+- [ ] Native html support
 - [ ] Content searching
 - [ ] Pernament highlighting
 - [ ] Book metadata display
