@@ -62,8 +62,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
         about_dialog.set_website("https://github.com/michaldaniel/Ebook-Viewer")
         about_dialog.set_website_label(_("Browse code at Github"))
         about_dialog.set_artists(artists)
-        _("[DON'T TRANSLATE] Replace name in \"Michał Daniel (english translation)\" with YOUR name and translation language!\n\nPS. python gettext makes it impossible to leave comments, I hope this works.")
-        about_dialog.set_translator_credits(_("Michał Daniel (english translation)"))
+        _("[DON'T TRANSLATE] Replace name in \"Anonymous Translator ([replace] translation)\" with YOUR name and translation language!\n\nPS. python gettext makes it impossible to leave comments, I hope this works.")
+        translator = _("Anonymous Translator ([replace] translation)")
+        if translator != "Anonymous Translator ([replace] translation)":
+            about_dialog.set_translator_credits(translator)
 
         about_dialog.set_license(software_license)
         about_dialog.set_comments(
