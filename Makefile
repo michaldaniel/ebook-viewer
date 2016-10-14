@@ -43,6 +43,8 @@ install-locale:
 	install -d ${EBOOKVIEWER_DIR}/locale/pl
 	install -d ${EBOOKVIEWER_DIR}/locale/pl/LC_MESSAGES
 	install -m 644 po/pl.mo ${EBOOKVIEWER_DIR}/locale/pl/LC_MESSAGES/easy-ebook-viewer.mo
+	install -m 644 po/fr.mo ${EBOOKVIEWER_DIR}/locale/fr/LC_MESSAGES/easy-ebook-viewer.mo
+	install -m 644 po/es.mo ${EBOOKVIEWER_DIR}/locale/es/LC_MESSAGES/easy-ebook-viewer.mo
 
 install-desktop:
 	install -d ${PREFIX}/share/icons/hicolor/24x24/apps
