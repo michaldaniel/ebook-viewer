@@ -62,6 +62,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
         about_dialog.set_website("https://github.com/michaldaniel/Ebook-Viewer")
         about_dialog.set_website_label(_("Browse code at Github"))
         about_dialog.set_artists(artists)
+
+        about_dialog.set_translator_credits(_("Michał Daniel (english translation)"))
+
         about_dialog.set_license(software_license)
         about_dialog.set_comments(
             _("Easy eBook Viewer is a simple and moder ePub files reader written in Python using GTK3 and WebKit."))
