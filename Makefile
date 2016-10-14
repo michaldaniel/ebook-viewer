@@ -43,7 +43,11 @@ install-locale:
 	install -d ${EBOOKVIEWER_DIR}/locale/pl
 	install -d ${EBOOKVIEWER_DIR}/locale/pl/LC_MESSAGES
 	install -m 644 po/pl.mo ${EBOOKVIEWER_DIR}/locale/pl/LC_MESSAGES/easy-ebook-viewer.mo
+	install -d ${EBOOKVIEWER_DIR}/locale/fr
+	install -d ${EBOOKVIEWER_DIR}/locale/fr/LC_MESSAGES
 	install -m 644 po/fr.mo ${EBOOKVIEWER_DIR}/locale/fr/LC_MESSAGES/easy-ebook-viewer.mo
+	install -d ${EBOOKVIEWER_DIR}/locale/es
+	install -d ${EBOOKVIEWER_DIR}/locale/es/LC_MESSAGES
 	install -m 644 po/es.mo ${EBOOKVIEWER_DIR}/locale/es/LC_MESSAGES/easy-ebook-viewer.mo
 
 install-desktop:
