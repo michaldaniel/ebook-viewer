@@ -323,8 +323,7 @@ class MainWindow(Gtk.ApplicationWindow):
         self.viewer.hide()
         self.right_box.add(self.spinner)
         self.filename = filename
-        native_with_dot = ("." + w for w in constants.NATIVE)
-        if not filename.upper().endswith(tuple(native_with_dot)):
+        if not filename.upper().endswith(tuple(constants.NATIVE)):
             convert_thread = threading.Thread(target=self.__bg_import_book, args=(filename,))
             self.job_running = True
             convert_thread.start()

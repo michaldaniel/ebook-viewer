@@ -64,14 +64,14 @@ class FileChooserWindow(Gtk.Window):
         filter_text = Gtk.FileFilter()
         filter_text.set_name(_("ePub files"))
         for extension in constants.NATIVE:
-            filter_text.add_pattern("*." + extension.upper())
-            filter_text.add_pattern("*." + extension.lower())
+            filter_text.add_pattern("*" + extension.upper())
+            filter_text.add_pattern("*" + extension.lower())
         dialog.add_filter(filter_text)
 
     def __add_imports(self, dialog):
         filter_text = Gtk.FileFilter()
         filter_text.set_name(_("Importable files"))
         for extension in constants.IMPORTABLES:
-            filter_text.add_pattern("*." + extension.upper())
-            filter_text.add_pattern("*." + extension.lower())
+            filter_text.add_pattern("*" + extension.upper())
+            filter_text.add_pattern("*" + extension.lower())
         dialog.add_filter(filter_text)
