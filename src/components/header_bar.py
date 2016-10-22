@@ -73,7 +73,7 @@ class HeaderBarComponent(Gtk.HeaderBar):
         try:
             self.number_pages_entry.set_max_width_chars(len(_("of 0"))+2)
         except AttributeError:
-            self.set_max_length(len(_("of 0"))+2)
+            self.number_pages_entry.set_max_length(len(_("of 0"))+2)
             print("Gtk-WARNING **: GTK+ ver. below 3.12 will cause application interface to misbehave")
         self.number_pages_entry.set_width_chars(len(_("of 0"))+2)
         self.number_pages_entry.set_can_focus(False)

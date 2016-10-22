@@ -29,7 +29,6 @@ class MainWindow(Gtk.ApplicationWindow):
     def __init__(self):
         # Creates Gtk.Window and sets parameters
         Gtk.Window.__init__(self)
-        self.title = _("Easy eBook Viewer")
         self.set_border_width(0)
         self.set_default_size(800, 800)
         self.connect("destroy", self.__on_exit)
@@ -291,8 +290,8 @@ class MainWindow(Gtk.ApplicationWindow):
 
             # Open book on viewer
             self.viewer.load_current_chapter()
-            self.set_title(self.content_provider.book_name + " by " + self.content_provider.book_author)
-
+            self.header_bar_component.set_title(self.content_provider.book_name)
+            self.header_bar_component.set_subtitle(self.content_provider.book_author)
             # Load scroll offset
             self.__load_scroll_pos()
 

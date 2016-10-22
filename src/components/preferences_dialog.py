@@ -57,11 +57,11 @@ class PreferencesDialog(Gtk.Window):
             vbox.set_margin_start(20)
             vbox.set_margin_end(20)
         except AttributeError:
+            print("Gtk-WARNING **: GTK+ ver. below 3.12 will cause application interface to misbehave")
             vbox.set_margin_left(20)
             vbox.set_margin_right(20)
         vbox.set_margin_top(20)
         self.add(vbox)
-
 
     def __on_themes_combo_changed(self, combo):
         text = combo.get_active_text()
