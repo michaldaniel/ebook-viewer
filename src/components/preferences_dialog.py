@@ -53,8 +53,12 @@ class PreferencesDialog(Gtk.Window):
         theme_label = Gtk.Label(_("Application theme") ,xalign=0)
         hbox_theme.pack_start(theme_label, False, True, 0)
         vbox.pack_start(hbox_theme, False, True, 0)
-        vbox.set_margin_start(20)
-        vbox.set_margin_end(20)
+        try:
+            vbox.set_margin_start(20)
+            vbox.set_margin_end(20)
+        except AttributeError:
+            vbox.set_margin_left(20)
+            vbox.set_margin_right(20)
         vbox.set_margin_top(20)
         self.add(vbox)
 

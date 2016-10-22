@@ -37,7 +37,10 @@ class ChaptersListItem(Gtk.ListBoxRow):
         label = Gtk.Label(xalign=0)
         label.set_text(data)
         label.set_justify(Gtk.Justification.LEFT)
-        label.set_margin_start(10)
+        try:
+            label.set_margin_start(10)
+        except AttributeError:
+            label.set_margin_left(10)
         label.set_width_chars(20)
         label.set_ellipsize(Pango.EllipsizeMode.END)
 
