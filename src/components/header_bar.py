@@ -61,6 +61,7 @@ class HeaderBarComponent(Gtk.HeaderBar):
         try:
             self.current_page_entry.set_max_width_chars(3)
         except AttributeError:
+            self.current_page_entry.set_max_length(3)
             print("Gtk-WARNING **: GTK+ ver. below 3.12 will cause application interface to misbehave")
         self.current_page_entry.set_width_chars(3)
         self.current_page_entry.connect("activate", self.__on_activate_current_page_entry)
@@ -72,6 +73,7 @@ class HeaderBarComponent(Gtk.HeaderBar):
         try:
             self.number_pages_entry.set_max_width_chars(5)
         except AttributeError:
+            self.set_max_length(5)
             print("Gtk-WARNING **: GTK+ ver. below 3.12 will cause application interface to misbehave")
         self.number_pages_entry.set_width_chars(5)
         self.number_pages_entry.set_can_focus(False)
