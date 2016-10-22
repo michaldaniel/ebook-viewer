@@ -10,6 +10,7 @@ html * /* Sets those rules for every single html child element */
 {
     color: #050505 !important;
     font-family: 'Open Sans Regular', sans-serif !important;
+    background-color: rgba(0,0,0,0) !important;
 }
 
 ::-moz-selection {
