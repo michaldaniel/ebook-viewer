@@ -18,7 +18,7 @@ import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('WebKit2', '4.0')
 from gi.repository import WebKit2 as WebKit
-
+from gi.repository import Gdk
 
 class Viewer():
     def __init__(self, window):
@@ -31,7 +31,9 @@ class Viewer():
 
         # Allow transparency so we can use GTK theme as background
         # Can be overridden by CSS background property, needs to be rgba(0,0,0,0)
-        #self.set_transparent(True)
+        color = Gdk.RGBA()
+        color.parse("rgba(0,0,0,0)")
+        self.view.set_background_color(color)
 
         # Sets WebView settings for ebook display
         # No java script etc.
