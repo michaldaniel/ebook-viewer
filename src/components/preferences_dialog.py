@@ -100,13 +100,13 @@ class HeaderBarComponent(Gtk.HeaderBar):
         if self.__window.window.config_provider.config["Application"]["stylesheet"] == "Day" and self.__window.themes_combo.get_active_text() == "Night (dark)":
             self.__window.window.config_provider.config["Application"]["stylesheet"] = "Night"
             self.__window.window.config_provider.save_configuration()
-            self.__window.window.viewer.set_style_night()
+            self.__window.window.viewer.set_style_sheet(1)
             self.__window.window.settings.set_property("gtk-application-prefer-dark-theme", True)
             self.__window.window.show_all()
         elif self.__window.window.config_provider.config["Application"]["stylesheet"] == "Night" and self.__window.themes_combo.get_active_text() == "Day (light)":
             self.__window.window.config_provider.config["Application"]["stylesheet"] = "Day"
             self.__window.window.config_provider.save_configuration()
-            self.__window.window.viewer.set_style_day()
+            self.__window.window.viewer.set_style_sheet(0)
             self.__window.window.settings.set_property("gtk-application-prefer-dark-theme", False)
             self.__window.window.show_all()
         self.__window.destroy()
