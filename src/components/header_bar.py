@@ -174,6 +174,7 @@ class HeaderBarComponent(Gtk.HeaderBar):
                                              _("Importing is unavailable"))
             error_dialog.format_secondary_text(_("Importing requires Calibre eBook reader to be installed."))
             error_dialog.run()
+            error_dialog.destroy()
         else:
             # Loads file chooser component
             file_chooser_component = file_chooser.FileChooserWindow()
