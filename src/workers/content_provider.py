@@ -86,22 +86,30 @@ class ContentProvider:
             md5 = self.__calculate_book_md5(self.__window.filename)
 
             # Sets metadata
-            self.book_name = str(bytes.decode(str(metadata.metadata.dc_title).encode("utf-8")))
-            raw_author = str(bytes.decode(str(metadata.metadata.dc_creator).encode("utf-8")))
-            processed_author = ""
-            first = True
-            # Some magic to get nice list of authors names
-            # TODO: Proper metadata and OPF data parsing, no dirty find_between tricks
-            while "data:" in raw_author:
-                if not first:
-                    processed_author += ", "
-                first = False
-                processed_author += self.find_between(raw_author, "data:'", "'")
-                raw_author = raw_author[raw_author.index("data:") + len("data:"):]
-            if processed_author == "":
-                self.book_author = str(bytes.decode(str(metadata.metadata.dc_creator).encode("utf-8")))
-            else:
-                self.book_author = processed_author
+            try:
+                self.book_name = str(bytes.decode(str(metadata.metadata.dc_title).encode("utf-8")))
+            except AttributeError:
+                self.book_name = _("Unknown book")
+
+            try:
+                raw_author = str(bytes.decode(str(metadata.metadata.dc_creator).encode("utf-8")))
+                processed_author = ""
+                first = True
+                # Some magic to get nice list of authors names
+                # TODO: Proper metadata and OPF data parsing, no dirty find_between tricks
+                while "data:" in raw_author:
+                    if not first:
+                        processed_author += ", "
+                    first = False
+                    processed_author += self.find_between(raw_author, "data:'", "'")
+                    raw_author = raw_author[raw_author.index("data:") + len("data:"):]
+                if processed_author == "":
+                    self.book_author = str(bytes.decode(str(metadata.metadata.dc_creator).encode("utf-8")))
+                else:
+                    self.book_author = processed_author
+            except AttributeError:
+                self.book_author = _("Unknown author(s)")
+
             self.book_md5 = md5.hexdigest()
 
             # Adds book to config (for use in bookmarks)
