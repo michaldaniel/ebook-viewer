@@ -76,8 +76,8 @@ class MainWindow(Gtk.ApplicationWindow):
         self.viewer = viewer.Viewer(self)
         print("Displaying blank page.")
         self.viewer.load_uri("about:blank")  # Display a blank page
-        self.viewer.connect("load-finished", self.__ajust_scroll_position)
-        self.viewer.connect("load-finished", self.__save_new_position)
+        self.viewer.connect("load-changed", self.__ajust_scroll_position)
+        self.viewer.connect("load-changed", self.__save_new_position)
         self.right_box.pack_end(self.right_scrollable_window, True, True, 0)
         # Create Chapters List component and pack it on the left
         self.chapters_list_component = chapters_list.ChaptersListComponent(self)
@@ -181,8 +181,8 @@ class MainWindow(Gtk.ApplicationWindow):
         :param wiget:
         :param data:
         """
-        if not data.get_uri() == "about:blank":
-            self.content_provider.set_data_from_uri(data.get_uri())
+        if not wiget.get_uri() == "about:blank":
+            self.content_provider.set_data_from_uri(wiget.get_uri())
 
     def load_chapter(self, chapter):
         """
@@ -217,11 +217,12 @@ class MainWindow(Gtk.ApplicationWindow):
         """
         self.settings = Gtk.Settings.get_default()
         if self.config_provider.config["Application"]["stylesheet"] == "Day":
-            self.viewer.set_style_day()
             self.settings.set_property("gtk-application-prefer-dark-theme", False)
+            self.viewer.set_style_day()
         else:
-            self.viewer.set_style_night()
             self.settings.set_property("gtk-application-prefer-dark-theme", True)
+            self.viewer.set_style_night()
+        self.viewer.update_background()
 
     def __on_copy_activate(self, widget):
         """
