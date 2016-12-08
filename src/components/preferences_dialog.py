@@ -76,7 +76,12 @@ class HeaderBarComponent(Gtk.HeaderBar):
         """
         super(Gtk.HeaderBar, self).__init__()
         self.set_show_close_button(False)
-        self.set_has_subtitle(True)
+
+        try:
+            self.set_has_subtitle(True)
+        except AttributeError:
+            pass # Too bad?
+
         # Set default window title
         self.props.title = _("Preferences")
         self.__window = window
