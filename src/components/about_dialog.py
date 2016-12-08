@@ -47,7 +47,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 ''')
 
         authors = [_("Michał Daniel (developer, maintainer)"),
-                   _("Nguyễn Ngọc Thanh Hà (contributor)")]
+                   _("Nguyễn Ngọc Thanh Hà (contributor)"),
+                   _("xerxes2 (contributor)")]
 
         # Thank you for the beautiful icon.
         artists = [_("Christian da Silva (www.christianda.com)")]
