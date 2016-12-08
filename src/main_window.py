@@ -192,12 +192,11 @@ class MainWindow(Gtk.ApplicationWindow):
         if self.content_provider.chapter_count >= chapter >= 0:
             self.content_provider.current_chapter = chapter
             self.viewer.load_current_chapter()
+        self.header_bar_component.enable_navigation()
         if chapter >= self.content_provider.chapter_count:
             self.header_bar_component.disable_forward_navigation()
         elif chapter <= 0:
             self.header_bar_component.disable_backward_navigation()
-        else:
-            self.header_bar_component.enable_navigation()
 
     def __on_keypress_viewer(self, wiget, data):
         """
