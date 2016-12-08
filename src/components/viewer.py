@@ -91,4 +91,5 @@ class Viewer():
 
     def callback(self, webview, context_menu, hit_result_event, event):
         self.__window.show_menu()
+        return True
 
