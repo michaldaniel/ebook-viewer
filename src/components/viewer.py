@@ -37,23 +37,12 @@ class Viewer():
 
         # Sets WebView settings for ebook display
         # No java script etc.
-        #self.set_full_content_zoom(True)
         settings = self.view.get_settings()
         settings.props.enable_javascript = False
         settings.props.enable_plugins = False
         settings.props.enable_page_cache = False
         settings.props.enable_java = False
-        try:
-            settings.props.enable_webgl = False
-        except AttributeError:
-            pass
-
-        # Disable default menu: contains copy and reload options
-        # Reload messes with custom styling, doesn't reload CSS
-        # App is using own "copy" right click hack
-        # It will allow in future to add more options on right click
-        #settings.props.enable_default_context_menu = False
-	
+        settings.props.enable_webgl = False
         settings.props.enable_html5_local_storage = False
 
         self.view.connect('context-menu', self.callback)
