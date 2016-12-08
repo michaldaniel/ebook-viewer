@@ -61,7 +61,7 @@ install-desktop:
 		${PREFIX}/share/icons/hicolor/scalable/apps/easy-ebook-viewer.svg
 	install -m 644 misc/easy-ebook-viewer.desktop \
 		${PREFIX}/share/applications/easy-ebook-viewer.desktop
-	gtk-update-icon-cache -f ${PREFIX}/share/icons/hicolor/
+	update-icon-caches ${PREFIX}/share/icons/hicolor
 
 clean:
 	rm -f easy-ebook-viewer
