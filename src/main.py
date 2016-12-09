@@ -24,7 +24,7 @@ from components import about_dialog
 
 class Application(Gtk.Application):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, application_id="com.github.easy-ebook-viewer",
+        super().__init__(*args, application_id="easy-ebook-viewer",
                          flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
                          **kwargs)
         self.window = None
@@ -50,7 +50,7 @@ class Application(Gtk.Application):
             # when the last one is closed the application shuts down
             self.window = MainWindow(file_path=self.file_path)
             self.window.connect("delete-event", self.on_quit)
-            self.window.set_wmclass(_("Easy eBook Viewer"), _("Easy eBook Viewer"))
+            self.window.set_wmclass("easy-ebook-viewer", "easy-ebook-viewer")
         self.window.show_all()
         if not self.window.book_loaded:
             self.window.header_bar_component.hide_jumping_navigation()
