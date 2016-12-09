@@ -26,7 +26,7 @@ from pathlib import Path
 
 
 class MainWindow(Gtk.ApplicationWindow):
-    def __init__(self):
+    def __init__(self, file_path=None):
         # Creates Gtk.Window and sets parameters
         Gtk.Window.__init__(self)
         self.set_border_width(0)
@@ -106,14 +106,12 @@ class MainWindow(Gtk.ApplicationWindow):
 
         self.book_loaded = False
         # If book came from arguments ie. was oppened using "Open with..." method etc.
-        if len(sys.argv) > 1:
-            # Check if that file really exists
-            if os.path.exists(sys.argv[1]):
-                # Save current book data
-                self.save_current_book_data()
-                # Load new book
-                self.load_book_data(sys.argv[1])
-                self.book_loaded = True
+        if file_path is not None:
+            # Save current book data
+            self.save_current_book_data()
+            # Load new book
+            self.load_book_data(sys.argv[1])
+            self.book_loaded = True
         else:
             # Try to load last book
             self.__reload_previous_book()
@@ -162,7 +160,6 @@ class MainWindow(Gtk.ApplicationWindow):
         :param data:
         """
         self.save_current_book_data()
-        Gdk.threads_leave()
 
     def __ajust_scroll_position(self, widget, data):
         """
