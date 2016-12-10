@@ -29,6 +29,9 @@ class Application(Gtk.Application):
                          **kwargs)
         self.window = None
         self.file_path = None
+        GLib.set_application_name('Easy eBook Viewer')
+        GLib.set_prgname('easy-ebook-viewer')
+        GLib.setenv('PULSE_PROP_application.icon_name', 'easy-ebook-viewer', True)
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
