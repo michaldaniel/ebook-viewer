@@ -46,7 +46,7 @@ class HeaderBarComponent(Gtk.HeaderBar):
 
         # Adds open eBook button
         self.open_button = Gtk.Button()
-        document_open_image = Gtk.Image.new_from_icon_name("document-open-symbolic", Gtk.IconSize.LARGE_TOOLBAR)
+        document_open_image = Gtk.Image.new_from_icon_name("document-open-symbolic", Gtk.IconSize.SMALL_TOOLBAR)
         self.open_button.add(document_open_image)
         self.open_button.connect("clicked", self.__on_open_clicked)
         self.pack_start(self.open_button)
@@ -136,7 +136,7 @@ class HeaderBarComponent(Gtk.HeaderBar):
 
         # Adds settings menu button
         self.properties_button = Gtk.Button()
-        document_properties_image = Gtk.Image.new_from_icon_name("open-menu-symbolic", Gtk.IconSize.LARGE_TOOLBAR)
+        document_properties_image = Gtk.Image.new_from_icon_name("open-menu-symbolic", Gtk.IconSize.SMALL_TOOLBAR)
         self.properties_button.add(document_properties_image)
         self.properties_button.connect("clicked", self.__on_properties_clicked)
         self.pack_end(self.properties_button)
