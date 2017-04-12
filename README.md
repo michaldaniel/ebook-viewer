@@ -36,6 +36,10 @@ Download or clone this repository then run in project directory:
 
 ```sudo make install```
 
+or for Debian-based (e.g. Ubuntu)
+
+```make && sudo checkinstall```
+
 Note the lack of configure step so make sure you have all dependencies.
 
 ## Screenshots
