@@ -47,7 +47,7 @@ class MainWindow(Gtk.ApplicationWindow):
             # TODO: Migrate to custom dialog designed in line with elementary OS Human Interface Guidelines
             error_dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.ERROR, Gtk.ButtonsType.OK,
                                              _("Could not write configuration file."))
-            error_dialog.format_secondary_text(_("Make sure ~/.easy-ebook-viewer is accessible and try again."))
+            error_dialog.format_secondary_text(_("Make sure $XDG_CONFIG_HOME/easy-ebook-viewer.conf is accessible and try again."))
             error_dialog.run()
             exit()
 

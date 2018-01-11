@@ -16,6 +16,7 @@
 import configparser
 import getpass
 import os
+from xdg.BaseDirectory import xdg_config_home
 
 
 class ConfigProvider:
@@ -24,8 +25,8 @@ class ConfigProvider:
         Manages book files and provides metadata
         """
         self.config = configparser.ConfigParser()
-        # Loads configuration from ~/.easy-ebook-viewer.conf
-        self.__config_path = os.path.expanduser(os.path.join("~", ".easy-ebook-viewer.conf"))
+        # Loads configuration from $XDG_CONFIG_HOME/easy-ebook-viewer.conf
+        self.__config_path = os.path.expanduser(os.path.join(xdg_config_home, "easy-ebook-viewer.conf"))
         if os.access(self.__config_path, os.W_OK):  # Checks if a config file exists
             # Config file exists, loads it.
             self.config.read(self.__config_path)
@@ -71,7 +72,7 @@ class ConfigProvider:
 
     def save_configuration(self):
         """
-        Saves configuration to file ~/.easy-ebook-viewer.conf
+        Saves configuration to file $XDG_CONFIG_HOME/easy-ebook-viewer.conf
         """
         with open(self.__config_path, "w") as configfile:
             self.config.write(configfile)
