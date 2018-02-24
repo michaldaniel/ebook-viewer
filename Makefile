@@ -2,6 +2,7 @@ PREFIX = /usr
 EBOOKVIEWER_DIR = ${PREFIX}/share/easy-ebook-viewer
 BINDIR = ${PREFIX}/bin
 PYTHON = ${BINDIR}/python3
+DISTRO := $(shell lsb_release -i | awk -F ':\t' '{print $$2}')
 
 all: easy-ebook-viewer
 
@@ -61,7 +62,11 @@ install-desktop:
 		${PREFIX}/share/icons/hicolor/scalable/apps/easy-ebook-viewer.svg
 	install -m 644 misc/easy-ebook-viewer.desktop \
 		${PREFIX}/share/applications/easy-ebook-viewer.desktop
+ifeq "${DISTRO}" "Arch"
+	gtk-update-icon-cache ${PREFIX}/share/icons/hicolor
+else
 	update-icon-caches ${PREFIX}/share/icons/hicolor
+endif
 
 clean:
 	rm -f easy-ebook-viewer
