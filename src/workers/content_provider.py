@@ -198,11 +198,17 @@ class ContentProvider:
         ncx_file_path = self.__get_ncx_file_path
         metadata = self.__get_metadata
         __files = []
+        __files_id = []
         self.chapter_links = []
         chapter_order = []
         for x in metadata.manifest.item:
             if x.media_type == "application/xhtml+xml":
                 __files.append(x.href)
+                __files_id.append(x.id)
+
+        spine_ids = []
+        for x in metadata.spine.itemref:
+            spine_ids.append(x.idref)
 
         self.titles = []
         if os.access(ncx_file_path, os.R_OK):  # Checks if NCX is accessible
@@ -247,14 +253,12 @@ class ContentProvider:
             for i in range(len(self.titles)):
                 self.titles[i] = [self.titles[i], self.chapter_links[i]]
 
-            # If not all all files are chaptered append them
-            # chater_number = 1;
-            if len(__files) > len(self.chapter_links):
-                for i in range(len(__files)):
-                    if __files[i] not in self.chapter_links:
-                        self.chapter_links.insert(i, __files[i])
-                        # self.titles.insert(i, "Unnamed chapter" + " (" + str(chater_number) + ")")
-                        # chater_number += 1;
+            # Rebuild chapter_links
+            self.chapter_links = []
+            if len(spine_ids) > len(self.chapter_links):
+                for i in range(len(spine_ids)):
+                    if spine_ids[i] in __files_id:
+                        self.chapter_links.append(__files[__files_id.index(spine_ids[i])])
 
             # Print some debug
             print("Files: " + str(__files))
