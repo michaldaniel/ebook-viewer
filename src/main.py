@@ -24,7 +24,7 @@ from components import about_dialog
 
 class Application(Gtk.Application):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, application_id="easy-ebook-viewer",
+        super().__init__(*args, application_id="apps.easy-ebook-viewer",
                          flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
                          **kwargs)
         self.window = None
