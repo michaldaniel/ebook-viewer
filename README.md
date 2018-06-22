@@ -35,7 +35,7 @@ Future plans:
 
 ## Installing
 
-**Requires**: gir1.2-webkit-3.0, libwebkitgtk-3.0-0, gir1.2-gtk-3.0, python3-gi (PyGObject for Python 3)
+**Requires**: gir1.2-webkit-3.0, libwebkitgtk-3.0-0, gir1.2-gtk-3.0, python3-gi (PyGObject for Python 3), python3-xdg
 
 Download or clone this repository then run in project directory:
 
