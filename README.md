@@ -1,6 +1,8 @@
 ## I do not develop this anymore and I'm not sure I will. Stop starring me.
 As far as I know [Bookworm](https://github.com/babluboy/bookworm) does everything better anyway. And this thing suffers from terrible home baked parsing engine. 
 
+
+
 ![Icon](https://cloud.githubusercontent.com/assets/1345297/18609855/7f6c13b2-7d0c-11e6-9fc7-0a23a251d2ea.png)
 
 # easy-ebook-viewer
