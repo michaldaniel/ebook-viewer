@@ -1,5 +1,5 @@
 ## I do not develop this anymore and I'm not sure I will. Stop starring me.
-As far as I know [Bookworm](https://github.com/babluboy/bookworm) does everything better anyway. And this thing suffers from terrible home baked parsing engine. 
+As far as I know [Bookworm](https://github.com/babluboy/bookworm) does everything better anyway. And this thing suffers from terrible home baked parsing engine. Or just consider more up to date fork. 
 
 
 
