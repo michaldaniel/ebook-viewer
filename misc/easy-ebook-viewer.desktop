@@ -7,4 +7,6 @@ StartupNotify=false
 Terminal=false
 Type=Application
 Name=Easy eBook Viewer
+Name[ja]=かんたん電子書籍ビューア
 Comment=Simple and modern eBook reader
+Comment[ja]=簡易かつ最新の電子書籍閲覧ソフト
