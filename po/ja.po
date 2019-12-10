@@ -1,0 +1,172 @@
+# Japanese Translation for Easy eBook Viewer (https://michaldaniel.github.io/ebook-viewer/index.html)
+# Copyright (C) YEAR ORGANIZATION
+# cmplstofB <https://github.com/cmplstofB/>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: easy-ebook-viewer\n"
+"POT-Creation-Date: 2019-12-10 12:53+JST\n"
+"PO-Revision-Date: 2019-12-10 14:45+JST\n"
+"Last-Translator: cmplstofB\n"
+"Language: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: ./src/components/about_dialog.py:33
+msgid ""
+"\n"
+"This program is free software: you can redistribute it and/or modify it\n"
+"under the terms of the GNU General Public License\n"
+"as published by the Free Software Foundation,\n"
+"either version 3 of the License, or (at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+"\n"
+"See the GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program. If not, see <http://www.gnu.org/licenses/>.\n"
+msgstr ""
+"\n"
+"当プログラムは自由なソフトウェアです: フリーソフトウェア財団が発行する\n"
+"GNU一般公衆利用許諾書（第3版かそれ以降）の定める条件の下，再頒布・改変できます。\n"
+"\n"
+"当プログラムは有用であることを願って頒布されますが，\n"
+"*保証は全くありません*。*商品適格性*の根拠や*特定目的への適合性*は，\n"
+"言外に示したものを含め全く在りません。\n"
+"\n"
+"詳しくはGNU一般公衆利用許諾書をご覧ください。\n"
+"\n"
+"当プログラムと共に，GNU一般公衆利用許諾書の写しを受け取っている筈です。\n"
+"受け取っていない場合は，こちら <http://www.gnu.org/licenses/> をご覧ください。\n"
+
+#: ./src/components/about_dialog.py:49
+msgid "Michał Daniel (developer, maintainer)"
+msgstr "Michał Daniel（開発・保守管理）"
+
+#: ./src/components/about_dialog.py:50
+msgid "Nguyễn Ngọc Thanh Hà (contributor)"
+msgstr "Nguyễn Ngọc Thanh Hà（貢献）"
+
+#: ./src/components/about_dialog.py:51
+msgid "Jens Persson (contributor)"
+msgstr "Jens Persson（貢献）"
+
+#: ./src/components/about_dialog.py:54
+msgid "Christian da Silva (www.christianda.com)"
+msgstr "Christian da Silva (www.christianda.com)"
+
+#: ./src/components/about_dialog.py:60 ./src/components/header_bar.py:34
+msgid "Easy eBook Viewer"
+msgstr "かんたん電子書籍ビューア"
+
+#: ./src/components/about_dialog.py:64
+msgid "Browse code at Github"
+msgstr "GitHubでコードを閲覧する"
+
+#: ./src/components/about_dialog.py:66
+msgid ""
+"[DON'T TRANSLATE] Replace name in \"Anonymous Translator ([replace] translation)\" with YOUR name and translation language!\n"
+"\n"
+"PS. python gettext makes it impossible to leave comments, I hope this works."
+msgstr ""
+
+#: ./src/components/about_dialog.py:67
+msgid "Anonymous Translator ([replace] translation)"
+msgstr "cmplstofB（日本語訳）"
+
+#: ./src/components/about_dialog.py:73
+msgid "Easy eBook Viewer is a simple and moder ePub files reader written in Python using GTK3 and WebKit."
+msgstr "かんたん電子書籍ビューアは，GTK3及びWebKitを用いた，簡易かつ最新のPython製電子書籍閲覧プログラムです。"
+
+#: ./src/components/about_dialog.py:75
+msgid "About Easy eBook Viewer"
+msgstr "かんたん電子書籍ビューアについて"
+
+#: ./src/components/file_chooser.py:30
+msgid "Please choose a file"
+msgstr "ファイルを選んでください。"
+
+#: ./src/components/file_chooser.py:59
+msgid "Any files"
+msgstr "全ての種類"
+
+#: ./src/components/file_chooser.py:65
+msgid "ePub files"
+msgstr "電子書籍"
+
+#: ./src/components/file_chooser.py:73
+msgid "Importable files"
+msgstr "取り入れ可能なもの"
+
+#: ./src/components/header_bar.py:71 ./src/components/header_bar.py:74
+#: ./src/components/header_bar.py:76 ./src/components/header_bar.py:78
+msgid "of 0"
+msgstr "/ 0"
+
+#: ./src/components/header_bar.py:111
+#: ./src/components/preferences_dialog.py:86
+msgid "Preferences"
+msgstr "設定"
+
+#: ./src/components/header_bar.py:116
+msgid "Import book..."
+msgstr "書籍を取り入れる"
+
+#: ./src/components/header_bar.py:131
+msgid "About"
+msgstr "概要"
+
+#: ./src/components/header_bar.py:174
+msgid "Importing is unavailable"
+msgstr "取り入れできません"
+
+#: ./src/components/header_bar.py:175
+msgid "Importing requires Calibre eBook reader to be installed."
+msgstr "取り込みにはCalibre eBook readerが必要です。"
+
+#: ./src/components/header_bar.py:258
+msgid "of %s"
+msgstr "中%s"
+
+#: ./src/components/preferences_dialog.py:29
+msgid "Properties"
+msgstr "情報"
+
+#: ./src/components/preferences_dialog.py:53
+msgid "Application theme"
+msgstr "外観の色調"
+
+#: ./src/main_window.py:49
+msgid "Could not write configuration file."
+msgstr "設定ファイルに書き込めませんでした。"
+
+#: ./src/main_window.py:50
+msgid "Make sure $XDG_CONFIG_HOME/easy-ebook-viewer.conf is accessible and try again."
+msgstr "$XDG_CONFIG_HOME/easy-ebook-viewer.confが参照可能かどうか確かめてから遣り直してください。"
+
+#: ./src/main_window.py:306
+msgid "Could not open the book."
+msgstr "書籍を開けませんでした。"
+
+#: ./src/main_window.py:308
+msgid "Make sure you can read the file and the book you are trying to open is in supported format and try again."
+msgstr "対象の閲覧が許可されているか，またかんたん電子書籍ビューアが該書籍の形式に対応しているか確かめてから遣り直してください。"
+
+#: ./src/workers/content_provider.py:92
+msgid "Unknown book"
+msgstr "不明な表題"
+
+#: ./src/workers/content_provider.py:111
+msgid "Unknown author(s)"
+msgstr "不明な著者"
+
+#: ./src/workers/content_provider.py:281
+msgid "Chapter %s"
+msgstr "%s章"
+
