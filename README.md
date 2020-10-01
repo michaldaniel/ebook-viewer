@@ -45,10 +45,10 @@ Note the lack of configure step so make sure you have all dependencies.
 
 ## Screenshots
 
-Dark theme
+Dark Theme
 
 ![Dark theme](https://cloud.githubusercontent.com/assets/1345297/19221520/4357d038-8e45-11e6-849b-d83a9fe496ba.png)
 
-Light theme
+Light Theme
 
 ![Light theme](https://cloud.githubusercontent.com/assets/1345297/19221521/43b2f698-8e45-11e6-839c-e9c41ab0aea6.png)
