@@ -29,7 +29,7 @@ Future plans:
 - [ ] Native txt support
 - [ ] Native html support
 - [ ] Content searching
-- [ ] Pernament highlighting
+- [ ] Permanent highlighting
 - [ ] Book metadata display
 - [ ] Ability to edit book metadata
 
